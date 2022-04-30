@@ -1,0 +1,56 @@
+{
+    "variables": {
+      "vmName": null    
+    },
+    "builders": [{     
+    "ip_wait_timeout": "1h",
+    "type": "vsphere-iso",
+    "vcenter_server": "yourservername_without_HTTP/HTTPS",
+    "username": "username",
+    "password": "password",
+    "insecure_connection": "true",
+    "datacenter": "datacenter_in_vCenter",
+    "datastore": "datastore_in_datacenter",
+    "communicator": "ssh",
+    "ssh_username": "ssh_username",
+    "ssh_password": "ssh_password",
+    "convert_to_template":"true",
+    "vm_name": "{{user `vmName`}}",
+    "notes": "Build using Packer",
+    "guest_os_type": "windows9_64Guest",
+    "CPUs": 2,
+    "RAM": 4096,
+    "RAM_reserve_all": true,
+    "firmware": "bios",
+    "disk_controller_type": "lsilogic-sas",
+    "storage": [
+      {
+        "disk_size": 700960,
+        "disk_thin_provisioned": false
+      }
+    ],
+
+    "network_adapters": [
+      {
+        "network": "yourNetwork",
+        "network_card": "vmxnet3"
+      }
+    ],
+
+    "iso_paths": [
+     "[datastore] en-us_windows_10.iso",
+     "[datastore] Vmtool.iso"
+    ],
+
+    "floppy_files": [
+        "autounattend.xml"             
+        ]
+    }],
+    "provisioners" :
+    [
+      
+        {
+          "type": "windows-restart"
+        }
+    ]
+  }
