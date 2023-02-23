@@ -1,6 +1,6 @@
 name: Sample Run Include Syntax Json Format
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+  
   push:
     branches: [ "testing" ]
   pull_request:
