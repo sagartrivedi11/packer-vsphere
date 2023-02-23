@@ -1,33 +1,68 @@
-name: Sample Run Include Syntax Json Format
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
 on:
-  
+  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "testing" ]
   pull_request:
     branches: [ "testing" ]
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
- 
-# The Trigger event 
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  job1:
-    runs-on: ubuntu-latest
-    outputs:
-# Making use of job.output
-       matrix: ${{ steps.setmatrix.outputs.matrix }}
+  # This workflow contains a single job called "build"
+  TestDiscovery:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Set Dynamic Matrix
-        id: setmatrix
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Download Packer
+        run: .\DownloadScript.ps1
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
         run: |
-           matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
-           echo "::set-output name=matrix::$matrixStringifiedObject"
-  job2:
-    needs: job1
-    runs-on: ubuntu-latest
+          echo Add other actions to build,
+          echo test, and deploy your project.
+          
+  Deploy:
+    # The type of runner that the job will run on    
+    needs:
+    - TestDiscovery
+    
     strategy:
-# Making use of fromJson (JSON syntax)
-      matrix: ${{ fromJson(needs.job1.outputs.matrix) }}
+      matrix:
+        env: [windows10]
+        product: [product1,product2,product3]
+    runs-on: windows-latest
+
     steps:
-    - run: echo Run ${{ matrix.run }}
-    - run: date
-    - run: sleep 1
-    - run: date  
+          - name: Run `Deployment`
+            run: |
+                  echo Running ${{ matrix.env }}-${{ matrix.product }}
+ 
+  TestExecution:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    
+    needs:
+    - Deploy
+    
+    strategy:
+      matrix:
+        product: [product1,product2,product3]
+        test: [test1,test2,test3]      
+    
+    steps:
+          - name: Run on ${{ matrix.product}}
+            run: echo Running ${{ matrix.test}}--${{ matrix.product}}
