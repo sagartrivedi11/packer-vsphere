@@ -44,7 +44,7 @@ jobs:
       matrix:
         env: [windows10,ubuntu]
         product: [product1,product2,product3]
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.env }}
 
     steps:
           - name: Run `Deployment`
