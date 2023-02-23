@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  Prepare:
+  TestDiscovery:
     # The type of runner that the job will run on
     runs-on: windows-latest
 
@@ -38,11 +38,11 @@ jobs:
   Deploy:
     # The type of runner that the job will run on    
     needs:
-    - Prepare
+    - TestDiscovery
     
     strategy:
       matrix:
-        env: [windows10,ubuntu]
+        env: [windows10]
         product: [product1,product2,product3]
     runs-on: windows-latest
 
@@ -51,7 +51,7 @@ jobs:
             run: |
                   echo Running ${{ matrix.env }}-${{ matrix.product }}
  
-  Testing:
+  TestExecution:
     # The type of runner that the job will run on
     runs-on: windows-latest
     
