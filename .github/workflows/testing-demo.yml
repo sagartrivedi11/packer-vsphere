@@ -51,10 +51,6 @@ jobs:
           - name: Run `Deployment`
             run: |
                   echo Running ${{ matrix.env }}-${{ matrix.product }}
-  
-          - name: Run `Deployment 2`
-            run: |
-                  echo Running ${{ matrix.env }}-${{ matrix.product }}
  
   Testing:
     # The type of runner that the job will run on
@@ -69,4 +65,4 @@ jobs:
     
     steps:
           - name: Run `Deployment`
-            run: echo Running ${{ matrix.test }}
+            run: echo Running ${{ matrix.Deploy.product.test}}
