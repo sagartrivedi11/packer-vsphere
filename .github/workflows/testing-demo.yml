@@ -16,7 +16,7 @@ jobs:
       - name: Set Dynamic Matrix
         id: setmatrix
         run: |
-           matrixStringifiedObject="{run:run1,run:run2}"
+           matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
            echo "::set-output name=matrix::$matrixStringifiedObject"
   job2:
     needs: job1
