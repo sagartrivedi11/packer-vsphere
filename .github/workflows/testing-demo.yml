@@ -6,13 +6,11 @@ on:
   pull_request:
     branches: [ "testing" ]
   workflow_dispatch:
-	
 # The Trigger event 
 jobs:
   job1:
     runs-on: windows-latest
     outputs:
-	# Making use of job.output
        matrix: ${{ steps.setmatrix.outputs.matrix }}
     steps:
       - name: Set Dynamic Matrix
