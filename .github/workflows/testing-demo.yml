@@ -15,6 +15,7 @@ jobs:
     steps:
       - name: Set Dynamic Matrix
         id: setmatrix
+        shell: pwsh
         run: |
            matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"},{\"run\":\"run3\"}]}"
            echo "::set-output name=matrix::$matrixStringifiedObject"
