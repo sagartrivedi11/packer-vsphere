@@ -9,7 +9,7 @@ on:
 # The Trigger event 
 jobs:
   job1:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     outputs:
        matrix: ${{ steps.setmatrix.outputs.matrix }}
     steps:
@@ -20,7 +20,7 @@ jobs:
            echo "::set-output name=matrix::$matrixStringifiedObject"
   job2:
     needs: job1
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       matrix: ${{ fromJson(needs.job1.outputs.matrix) }}
     steps:
