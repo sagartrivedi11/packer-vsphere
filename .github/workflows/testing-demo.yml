@@ -15,8 +15,18 @@ jobs:
     steps:
       - name: Set Dynamic Matrix
         id: setmatrix
+        shell: pwsh
         run: |
-           matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"},{\"run\":\"run3\"}]}"
+           matrixStringifiedObject=$testJson =  [ordered]@{}
+                                                    for($x=1; $x -lt 257; $x=$x+1)   
+                                                     {   
+                                                        $y="Test"+$x 
+                                                          $testJson += @{
+                                                          $y      = "Test"+$x
+                                                        }
+                                                     }  
+                                                    return $testJson
+
            echo "::set-output name=matrix::$matrixStringifiedObject"
   job2:
     needs: job1
