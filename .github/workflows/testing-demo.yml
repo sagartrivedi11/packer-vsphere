@@ -10,9 +10,9 @@ jobs:
     runs-on: windows-latest  
     strategy:
       matrix:
-      testsets:[set1,set2,set3]
-      
+       testsets:[set1,set2,set3]
+    
     steps:
-    - name: print array
-      shell: pwsh
-      run: echo Run ${{ matrix.testsets }}
+      - name: print array
+        shell: pwsh
+        run: echo Run ${{ matrix.testsets }}
