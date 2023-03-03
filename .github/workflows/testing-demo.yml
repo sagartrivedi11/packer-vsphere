@@ -9,10 +9,10 @@ jobs:
   innerloop:
     runs-on: windows-latest  
     strategy:
-      matrix: 
-       testsets:[set1,set2,set3]     
+      matrix:
+      testsets:[set1,set2,set3]
       
-      steps:
-      - name: print array
-        shell: pwsh
-        run: echo Run ${{ matrix.testsets }}
+    steps:
+    - name: print array
+      shell: pwsh
+      run: echo Run ${{ matrix.testsets }}
