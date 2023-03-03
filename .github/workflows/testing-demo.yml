@@ -1,68 +1,15 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
+name: workflow-call 
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "testing" ]
-  pull_request:
-    branches: [ "testing" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  TestDiscovery:
-    # The type of runner that the job will run on
-    runs-on: windows-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Download Packer
-        run: .\DownloadScript.ps1
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          
-  Deploy:
-    # The type of runner that the job will run on    
-    needs:
-    - TestDiscovery
-    
-    strategy:
-      matrix:
-        env: [windows10]
-        product: [product1,product2,product3]
-    runs-on: windows-latest
-
-    steps:
-          - name: Run `Deployment`
-            run: |
-                  echo Running ${{ matrix.env }}-${{ matrix.product }}
- 
-  TestExecution:
-    # The type of runner that the job will run on
-    runs-on: windows-latest
-    
-    needs:
-    - Deploy
-    
-    strategy:
-      matrix:
-        product: [p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16]
-        test: [t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16,t17]      
-    
-    steps:
-          - name: Run on ${{ matrix.product}}
-            run: echo Running ${{ matrix.test}}--${{ matrix.product}}
+  workflow_call:
+    inputs:
+      testbatch:
+        required: true
+        type: string       jobs:
+  innerloop:
+    runs-on: windows-latest  
+    strategy:
+      matrix: 
+        testsets: [set1,set2,set3]     steps:
+    - name: print array
+      shell: pwsh
+      run: echo Run ${{ matrix.testsets }}
