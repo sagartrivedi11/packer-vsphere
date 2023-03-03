@@ -4,12 +4,15 @@ on:
     inputs:
       testbatch:
         required: true
-        type: string       jobs:
+        type: string       
+jobs:
   innerloop:
     runs-on: windows-latest  
     strategy:
       matrix: 
-        testsets: [set1,set2,set3]     steps:
-    - name: print array
-      shell: pwsh
-      run: echo Run ${{ matrix.testsets }}
+       testsets:[set1,set2,set3]     
+      
+      steps:
+      - name: print array
+        shell: pwsh
+        run: echo Run ${{ matrix.testsets }}
