@@ -14,7 +14,7 @@ on:
 
 jobs:
   innerloop:
-    runs-on: [ self-hosted ]
+    runs-on: windows-latest
     strategy:
       matrix: 
         testsets: [set1,set2]
