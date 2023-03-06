@@ -1,6 +1,10 @@
 name: workflow-call
 
 on:
+  push:
+    branches: [ "testing" ]
+  pull_request:
+    branches: [ "testing" ]
   workflow_call:
   workflow_dispatch:
     inputs:
