@@ -1,18 +1,19 @@
-name: workflow-call 
+name: workflow-call
+
 on:
-  workflow_call:
-    inputs:
-      testbatch:
-        required: true
-        type: string       
+  workflow_call:
+    inputs:
+      testbatch:
+        required: true
+        type: string      
+
 jobs:
-  innerloop:
-    runs-on: windows-latest  
-    strategy:
-      matrix:
-       testsets:[set1,set2,set3]
-    
+  innerloop:
+    runs-on: [ self-hosted ]
+    strategy:
+      matrix: 
+        testsets: [set1,set2]
+
     steps:
-      - name: print array
-        shell: pwsh
-        run: echo Run ${{ matrix.testsets }}
+    - name: print array      
+      run: echo Run ${{ matrix.testsets }}
