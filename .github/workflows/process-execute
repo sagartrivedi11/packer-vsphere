@@ -1,0 +1,20 @@
+name: workflow-call
+
+on:
+  push:
+    branches: [ "testing" ]
+  pull_request:
+    branches: [ "testing" ]
+  workflow_dispatch:
+    inputs:
+      testbatch:
+        required: true
+        type: string      
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+    - name: print array      
+      run: echo 'Running'
