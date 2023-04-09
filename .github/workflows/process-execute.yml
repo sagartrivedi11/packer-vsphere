@@ -1,3 +1,4 @@
+# D:\a\packer-vsphere\packer-vsphere
 name: workflow-call
 
 on:
@@ -14,8 +15,5 @@ jobs:
     steps:
       - name: checkout
         uses: "actions/checkout@v3"
-        with:
-          repository: sample/tools
-          path: tools
       - name: print array      
         run: echo 'Running'
