@@ -6,10 +6,7 @@ on:
   pull_request:
     branches: [ "testing" ]
   workflow_dispatch:
-    inputs:
-      testbatch:
-        required: true
-        type: string      
+    
 jobs:
   test:
     runs-on: windows-latest
