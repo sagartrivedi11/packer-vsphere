@@ -18,4 +18,4 @@ jobs:
       - name: print array      
         run: echo 'Running'
       - name: run sample exe
-        run: ./sample.exe
+        run: ./sample.exe >> sample.log
