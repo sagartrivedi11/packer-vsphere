@@ -10,7 +10,6 @@ on:
       testbatch:
         required: true
         type: string      
-
 jobs:
   test:
     runs-on: windows-latest
