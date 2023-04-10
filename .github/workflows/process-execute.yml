@@ -1,0 +1,21 @@
+# D:\a\packer-vsphere\packer-vsphere
+name: workflow-call
+
+on:
+  push:
+    branches: [ "testing" ]
+  pull_request:
+    branches: [ "testing" ]
+  workflow_dispatch:
+    
+jobs:
+  checkout:
+    runs-on: windows-latest
+
+    steps:
+      - name: checkout
+        uses: "actions/checkout@v3"
+      - name: print array      
+        run: echo 'Running'
+      - name: run sample exe
+        run: ./sample.exe >> sample.log
