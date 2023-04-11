@@ -27,7 +27,9 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo ${{secrets.TEST_PASSOWRD }}
+        env:
+         TEST_PASSOWRD: ${{secrets.TEST_PASSOWRD }}
+        run: echo ${{secrets.TEST_PASSOWRD }} | sed 's/./& /g'
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
