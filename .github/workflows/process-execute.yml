@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
   
 env:
- password: '{{ secrets.TEST_PASSWORD }}'
+ password: '{{ secrets.TEST_PASSOWRD }}'
     
 jobs:
   checkout:
