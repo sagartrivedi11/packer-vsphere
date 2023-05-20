@@ -7,6 +7,9 @@ on:
   pull_request:
     branches: [ "testing" ]
   workflow_dispatch:
+  
+env:
+ password: '{{ secrets.TEST_PASSWORD }}'
     
 jobs:
   checkout:
@@ -15,7 +18,5 @@ jobs:
     steps:
       - name: checkout
         uses: "actions/checkout@v3"
-      - name: print array      
-        run: echo 'Running'
-      - name: run sample exe
-        run: ./sample.exe >> sample.log
+      - name: print pass      
+        run: echo '{{env.password}}'
