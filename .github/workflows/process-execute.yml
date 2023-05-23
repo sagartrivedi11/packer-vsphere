@@ -21,7 +21,7 @@ jobs:
       - id: step1
         run: echo "test=hello" >> "$GITHUB_OUTPUT"
       - id: step2
-        run: ${{ github.workspace }}\DownloadScript.ps1 >> "$GITHUB_OUTPUT"
+        run: ${{ github.workspace }}\sample.exe >> "$GITHUB_OUTPUT"
   job2:
     runs-on: windows-latest
     needs: job1
