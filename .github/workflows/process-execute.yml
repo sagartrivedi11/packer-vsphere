@@ -18,10 +18,11 @@ jobs:
       output1: ${{ steps.step1.outputs.test }}
       output2: ${{ steps.step2.outputs.test }}
     steps:
+      - uses: actions/checkout@v3
       - id: step1
         run: echo "test=hello" >> "$GITHUB_OUTPUT"
       - id: step2
-        run: ${{ github.workspace }}\sample.exe >> "$GITHUB_OUTPUT"
+        run: ${{ github.workspace }}\DownloadScript.ps1 >> "$GITHUB_OUTPUT"
   job2:
     runs-on: windows-latest
     needs: job1
