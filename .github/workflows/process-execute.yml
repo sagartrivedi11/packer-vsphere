@@ -17,5 +17,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: test 
-        run: ${{ github.workspace }}\DownloadScript.ps1
+        run: echo ${{ github.runner_id }}
   
