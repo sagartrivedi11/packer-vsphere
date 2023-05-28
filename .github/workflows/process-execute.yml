@@ -19,6 +19,6 @@ jobs:
     steps:
      - name: Output Run ID
        id: step1
-       run: echo "var1=${{ github.run_id }}" >> $GITHUB_OUTPUT
+       run: echo "var1=$hello" >> $GITHUB_OUTPUT
      - name: Output print
        run: echo ${{ steps.outputs.vapps }}
