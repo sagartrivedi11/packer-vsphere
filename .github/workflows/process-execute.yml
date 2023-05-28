@@ -21,4 +21,4 @@ jobs:
        id: step1
        run: echo "var1=${{ github.run_id }}" >> $GITHUB_OUTPUT
      - name: Output print
-       run: echo ${{ vapps }}
+       run: echo ${{ outputs.vapps }}
