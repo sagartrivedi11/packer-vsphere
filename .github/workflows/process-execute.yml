@@ -16,12 +16,9 @@ jobs:
     runs-on: windows-latest    
     outputs:
       vapps: ${{ steps.step1.outputs.var1 }}
-    strategy:
-      matrix:
-        host: ${{ outputs.vapps }}
     steps:
      - name: Output Run ID
        id: step1
        run: echo "var1=${{ github.run_id }}" >> $GITHUB_OUTPUT
      - name: Output print
-       run: echo ${{ matrix.host }}
+       run: echo ${{ job1.outputs.vapps }}
