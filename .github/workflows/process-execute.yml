@@ -21,5 +21,5 @@ jobs:
        id: step1
        run: echo "var1=hello" >> $GITHUB_OUTPUT
      - name: Output print
-       run: echo "${{ var1 }}"
+       run: echo $var1
   
