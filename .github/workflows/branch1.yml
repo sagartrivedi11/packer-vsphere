@@ -21,6 +21,9 @@ jobs:
   job2:
     runs-on: windows-latest
     needs: job1
+    strategy:
+      matrix:
+        host: ${{ job1.outputs.vapps }}
     steps:
       - name: Get color
-        run: echo "The selected color is ${{ job1.outputs.vapps }}" 
+        run: echo "The selected color is ${{ host }}" 
