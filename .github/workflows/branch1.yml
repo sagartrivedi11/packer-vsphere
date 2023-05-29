@@ -9,7 +9,7 @@ on:
     
 jobs:
 
-  job1:
+  set-color:
     runs-on: ubuntu-latest    
     outputs:
       vapps: ${{ steps.random-color-generator.outputs.vapps }}
@@ -18,9 +18,9 @@ jobs:
         id: random-color-generator
         run: echo "vapps=green" >> "$GITHUB_OUTPUT"
                 
-  job2:
+  get-color:
     runs-on: windows-latest
-    needs: job1
+    needs: set-color
     strategy:
       matrix:
         host: ${{ job1.outputs.vapps }}
