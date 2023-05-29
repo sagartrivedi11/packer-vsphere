@@ -1,4 +1,3 @@
-# D:\a\packer-vsphere\packer-vsphere
 name: workflow-call
 
 on:
@@ -6,12 +5,7 @@ on:
     branches: [ "testing" ]
   pull_request:
     branches: [ "testing" ]
-  workflow_dispatch:
-
-env:
-  buildPath: 'DemoPath1'
-  
-  
+  workflow_dispatch: 
     
 jobs:
 
@@ -23,14 +17,10 @@ jobs:
       - name: Set color
         id: random-color-generator
         run: echo "vapps=green" >> "$GITHUB_OUTPUT"
-        shell: bash
-        
-        
+                
   job2:
     runs-on: windows-latest
     needs: job1
     steps:
       - name: Get color
-        run: echo "The selected color is ${{ job1.outputs.vapps }}"
-
-  
+        run: echo "The selected color is ${{ job1.outputs.vapps }}" 
