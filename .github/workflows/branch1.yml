@@ -23,7 +23,7 @@ jobs:
     needs: set-color
     strategy:
       matrix:
-        host: ${{ job1.outputs.vapps }}
+        host: ${{ set-color.outputs.vapps }}
     steps:
       - name: Get color
         run: echo "The selected color is ${{ host }}" 
