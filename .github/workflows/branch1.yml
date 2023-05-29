@@ -16,15 +16,19 @@ env:
 jobs:
 
   job1:
-    runs-on: windows-latest    
+    runs-on: ubuntu-latest    
     outputs:
-      vapps: ${{ steps.step1.outputs.var1 }}
+      vapps: ${{ steps.random-color-generator.outputs.vapps }}
     steps:
       - name: Set color
         id: random-color-generator
-        run: echo "SELECTED_COLOR=green" >> "$GITHUB_OUTPUT"
-        shell: bash
+        run: echo "vapps=green" >> "$GITHUB_OUTPUT"
+        
+        
+  job2:
+    runs-on: windows-latest          
+    steps:
       - name: Get color
-        run: echo "The selected color is ${{ steps.random-color-generator.outputs.SELECTED_COLOR }}"
+        run: echo "The selected color is ${{ job1.outputs.vapps }}"
 
   
