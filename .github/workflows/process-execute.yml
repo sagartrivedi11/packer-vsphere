@@ -17,9 +17,10 @@ jobs:
     outputs:
       vapps: ${{ steps.step1.outputs.var1 }}
     steps:
-     - name: Output Run ID
-       id: step1
-       run: echo "var1=hello" >> $GITHUB_ENV
-     - name: Output print
-       run: echo "${{env.var1}}"
+      - name: Set color
+        id: random-color-generator
+        run: echo "SELECTED_COLOR=green" >> "$GITHUB_OUTPUT"
+      - name: Get color
+        run: echo "The selected color is ${{ steps.random-color-generator.outputs.SELECTED_COLOR }}"
+
   
