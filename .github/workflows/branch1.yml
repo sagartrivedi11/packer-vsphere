@@ -23,6 +23,7 @@ jobs:
       - name: Set color
         id: random-color-generator
         run: echo "vapps=green" >> "$GITHUB_OUTPUT"
+        shell: bash
         
         
   job2:
