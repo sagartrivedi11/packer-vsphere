@@ -21,4 +21,4 @@ jobs:
        id: step1
        run: echo "var1=$hello" >> $Env:GITHUB_OUTPUT
      - name: Output print
-       run: echo "${{ job1.outputs.vapps }}"
+       run: echo "${{ steps.outputs.vapps }}"
