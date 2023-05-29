@@ -16,12 +16,4 @@ jobs:
     steps:
       - name: Set color
         id: set-color-var
-        run: echo "vapps=green" >> "$GITHUB_OUTPUT"
-        
-                
-  get-color:
-    runs-on: windows-latest
-    needs: set-color
-    steps:
-      - name: Get color
-        run: echo "The selected color is ${{ set-color.outputs.vapps }}" 
+        run: echo "vapps=green" >> "$GITHUB_OUTPUT"           
