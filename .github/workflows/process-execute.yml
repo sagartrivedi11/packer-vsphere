@@ -22,3 +22,6 @@ jobs:
        run: echo "var1=$hello" >> $Env:GITHUB_OUTPUT
      - name: Output print
        run: echo "${{ steps.outputs.vapps }}"
+     - name: Sleep for 30 seconds
+       run: Start-Sleep -s 30
+       shell: powershell
