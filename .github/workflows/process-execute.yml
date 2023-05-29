@@ -13,8 +13,9 @@ on:
 jobs:
 
   job1:
-    runs-on: windows-latest    
-
+    runs-on: ubuntu-latest    
+    outputs:
+      vapps: ${{ steps.step1.outputs.var1 }}
     steps:
       - name: Set color
         id: random-color-generator
