@@ -19,7 +19,7 @@ jobs:
     steps:
      - name: Output Run ID
        id: step1
-       run: echo "var1=hello" >> $GITHUB_OUTPUT
+       run: echo "var1=hello" >> $GITHUB_ENV
      - name: Output print
-       run: echo $var1
+       run: echo "${{env.var1}}"
   
