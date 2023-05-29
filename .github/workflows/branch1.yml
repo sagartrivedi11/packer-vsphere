@@ -12,18 +12,16 @@ jobs:
   set-color:
     runs-on: ubuntu-latest    
     outputs:
-      vapps: ${{ steps.random-color-generator.outputs.vapps }}
+      vapps: ${{ steps.set-color-var.outputs.vapps }}
     steps:
       - name: Set color
-        id: random-color-generator
+        id: set-color-var
         run: echo "vapps=green" >> "$GITHUB_OUTPUT"
+        
                 
   get-color:
     runs-on: windows-latest
     needs: set-color
-    strategy:
-      matrix:
-        host: ${{ set-color.outputs.vapps }}
     steps:
       - name: Get color
-        run: echo "The selected color is ${{ host }}" 
+        run: echo "The selected color is ${{ set-color.outputs.vapps }}" 
