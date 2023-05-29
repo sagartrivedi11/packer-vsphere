@@ -9,18 +9,19 @@ on:
     
 jobs:
 
-  set-color:
+  job1:
     runs-on: ubuntu-latest    
-    outputs:
-      vapps: ${{ steps.set-color-var.outputs.vapps }}
+
     steps:
       - name: Set color
         id: set-color-var
-        run: echo "vapps=green" >> "$GITHUB_OUTPUT"           
-  
+        run: echo "vapps=green" >> "$GITHUB_OUTPUT"
+    outputs:
+      vapps: ${{ steps.set-color-var.outputs.vapps }}        
+                
   get-color:
     runs-on: windows-latest
-    needs: set-color
+    needs: job1
     steps:
       - name: Get color
-        run: echo $set-color.outputs.vapps
+        run: echo "The selected color is ${{ needs.job1.outputs.vapps }}" 
