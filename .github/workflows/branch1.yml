@@ -24,10 +24,10 @@ jobs:
     needs: job1
     strategy:
      matrix:
-        host: ${{ fromJSON(needs.job1.outputs.vapps) }}
+        host: ${{ 1 }}
     steps:
       - name: power & sleep
-        run: echo "power & sleep"
+        run: echo "power & sleep ${{ matrix.host }}"
       
       - name: .net install
-        run: echo ".net install"
+        run: echo ".net install ${{ matrix.host }}"
