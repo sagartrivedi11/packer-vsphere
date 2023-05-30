@@ -26,5 +26,8 @@ jobs:
      matrix:
         host: [1,2]
     steps:
-      - name: Get color
-        run: echo "The selected color is ${{ matrix.host }}" 
+      - name: power & sleep
+        run: echo "power & sleep ${{ matrix.host }}"
+      
+      - name: .net install
+        run: echo ".net install ${{ matrix.host }}"
