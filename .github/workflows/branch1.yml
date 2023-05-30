@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Set color
         id: set-color-var
-        run: echo "vapps={'vapp_id':'operation-0', 'ip_address':'149.212.205.62'}" >> "$GITHUB_OUTPUT"
+        run: echo "vapps=hello" >> "$GITHUB_OUTPUT"
     outputs:
       vapps: ${{ steps.set-color-var.outputs.vapps }}        
                 
@@ -24,7 +24,7 @@ jobs:
     needs: job1
     strategy:
      matrix:
-        host: ${{ needs.job1.outputs.vapps }}
+        host: ${{ fromJSON([{'vapp_id':'operation-0', 'ip_address':'149.212.205.62'}]) }}
     steps:
       - name: power & sleep
         run: echo "power & sleep ${{ matrix.host }}"
