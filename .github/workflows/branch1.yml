@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Set color
         id: set-color-var
-        run: echo "vapps==[{'vapp_id':'operation-0', 'ip_address':'149.212.205.62'}]" >> "$GITHUB_OUTPUT"
+        run: echo "vapps=={'vapp_id':'operation-0', 'ip_address':'149.212.205.62'}" >> "$GITHUB_OUTPUT"
     outputs:
       vapps: ${{ steps.set-color-var.outputs.vapps }}        
                 
@@ -27,4 +27,4 @@ jobs:
         host: ${{ fromJSON(needs.job1.outputs.vapps) }}
     steps:
       - name: Get color
-        run: echo "The selected color is ${{ needs.job1.outputs.vapps }}" 
+        run: echo "The selected color is ${{ host }}" 
