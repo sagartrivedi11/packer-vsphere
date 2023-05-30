@@ -24,7 +24,7 @@ jobs:
     needs: job1
     strategy:
      matrix:
-        host: ${{ fromJSON(needs.job1.outputs.vapps) }}
+        host: [1,2]
     steps:
       - name: Get color
         run: echo "The selected color is ${{ matrix.host }}" 
