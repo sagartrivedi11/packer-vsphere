@@ -22,6 +22,9 @@ jobs:
   get-color:
     runs-on: windows-latest
     needs: job1
+    strategy:
+     matrix:
+        host: ${{ fromJSON(needs.job1.outputs.vapps) }}
     steps:
       - name: Get color
         run: echo "The selected color is ${{ needs.job1.outputs.vapps }}" 
