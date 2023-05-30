@@ -24,7 +24,7 @@ jobs:
     needs: job1
     strategy:
      matrix:
-        host: ${{ fromJSON('[{'vapp_id':'operation-0', 'ip_address':'149.212.205.62'}]') }}
+        host: ${{ fromJSON([{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]) }}
     steps:
       - name: power & sleep
         run: echo "power & sleep ${{ matrix.host }}"
