@@ -29,6 +29,6 @@ jobs:
        host: '${{fromJSON(needs.job1.outputs.vapps)}}'
     steps:
       - name: power & sleep
-        run: echo "power & sleep ${{ matrix.host }}"
+        run: echo "power & sleep ${{ matrix.host[0] }}"
       
  
