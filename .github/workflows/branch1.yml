@@ -39,5 +39,6 @@ jobs:
     steps:
       - name: power & sleep
         run: echo "power & sleep ${{needs.job1.outputs.ip}}"
+        shell: pwsh
       
  
