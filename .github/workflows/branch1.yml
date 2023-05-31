@@ -29,7 +29,7 @@ jobs:
       - name: power & sleep
         run: echo "power & sleep ${{ matrix.host }}"
       - name: print json
-        run: echo ${{needs.job1.outputs.vapps}}
+        run: echo ${{fromJSON(needs.job1.outputs.vapps)}}
       
       - name: .net install
         run: echo ".net install ${{ matrix.host }}"
