@@ -27,7 +27,7 @@ jobs:
     needs: job1
     strategy:
      matrix:
-      host: ${{needs.job1.outputs.vapps}}
+      host: ["${{needs.job1.outputs.vapps}}"]
   
     steps:
       - name: power & sleep
