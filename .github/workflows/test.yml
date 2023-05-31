@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Set color
         env:
-         test: '["192.168.0.1","192.168.0.2"]'
+         test: '[192.168.0.1,192.168.0.2]'
         id: set-color-var
         run: echo "vapps=${{ env.test }}" >> "$GITHUB_OUTPUT"       
          
@@ -27,9 +27,10 @@ jobs:
     needs: job1
     strategy:
      matrix:
-      host: ${{needs.job1.outputs.vapps}}
+      host: [192.168.0.1,192.168.0.2]
   
     steps:
       - name: power & sleep
-        run: echo "power & sleep ${{matrix.host}}"
+        run: Start-Sleep -s 600 
+        shell: powershell
  
