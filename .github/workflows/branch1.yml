@@ -28,7 +28,6 @@ jobs:
     steps:
       - name: power & sleep
         run: echo "power & sleep ${{ matrix.host }}"
-      - name: print json
       
       - name: .net install
         run: echo ".net install ${{ matrix.host }}"
