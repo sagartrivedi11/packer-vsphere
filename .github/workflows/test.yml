@@ -27,7 +27,7 @@ jobs:
     needs: job1
     strategy:
      matrix:
-      host: [195.168.0.1,168.168.0.2]
+      host: ${{job1.outputs.vapps}}
   
     steps:
       - name: power & sleep
