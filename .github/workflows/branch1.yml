@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Set color
         id: set-color-var
-        run: echo "vapps={[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> "$GITHUB_OUTPUT"
+        run: echo "vapps={{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}}" >> "$GITHUB_OUTPUT"
     outputs:
       vapps: ${{ steps.set-color-var.outputs.vapps }}        
                 
