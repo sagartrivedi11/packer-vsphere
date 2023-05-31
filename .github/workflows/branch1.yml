@@ -30,13 +30,13 @@ jobs:
       ip: ${{ steps.get-ip.outputs.ip }}
                 
   get-color:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: job1
-    #strategy:
-     # matrix:
-       #host: ${{fromJSON(needs.job1.outputs.vapps)}}
-      # ip: ${{ fromJSON(needs.job1.outputs.ip) }}
+    strategy:
+     matrix:
+      #host: ${{fromJSON(needs.job1.outputs.vapps)}}
+       ip: ${{ fromJSON(needs.job1.outputs.ip) }}
     steps:
       - name: power & sleep
-        run: echo "power & sleep ${{needs.job1.outputs.ip}}"
+        run: echo "power & sleep ${{matrix.host}}"
  
