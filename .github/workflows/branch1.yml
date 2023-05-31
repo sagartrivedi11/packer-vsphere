@@ -24,7 +24,7 @@ jobs:
     needs: job1
     strategy:
      matrix:
-        host: ${{ 1 }}
+        host: ${{fromJSON(needs.job1.outputs.vapps)}}
     steps:
       - name: power & sleep
         run: echo "power & sleep ${{ matrix.host }}"
