@@ -21,12 +21,13 @@ jobs:
     
       - name: get ip
         id: get-ip
-        run: echo "${{ steps.set-color-var.outputs.vapps }}"
+        run: echo "ip=${{ fromJSON(steps.set-color-var.outputs.vapps).ip_address }}" >> "$GITHUB_OUTPUT"
        
          
          
     outputs:
-      vapps: ${{ steps.set-color-var.outputs.vapps }}        
+      vapps: ${{ steps.set-color-var.outputs.vapps }} 
+      ip: ${{ steps.get-ip.outputs.ip }}
                 
   get-color:
     runs-on: windows-latest
