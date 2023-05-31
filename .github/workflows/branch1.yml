@@ -17,7 +17,10 @@ jobs:
         env:
          test: "[{'vapp_id': 'loadtest-0', 'ip_address': '149.212.205.9'}, {'vapp_id': 'loadtest-1', 'ip_address': '149.212.205.11'}]"
         id: set-color-var
-        run: echo "vapps=${{ env.test }}" >> "$GITHUB_OUTPUT"
+        run: |
+         echo "vapps=${{ env.test }}" >> "$GITHUB_OUTPUT"
+         echo "${{fromJson(steps.set-color-var.outputs.vapps).ip_address}}"
+         
     outputs:
       vapps: ${{ steps.set-color-var.outputs.vapps }}        
                 
@@ -29,6 +32,6 @@ jobs:
        host: '${{fromJSON(needs.job1.outputs.vapps)}}'
     steps:
       - name: power & sleep
-        run: echo "power & sleep ${{ matrix.host[0] }}"
+        run: echo "power & sleep ${{ matrix.host }}"
       
  
