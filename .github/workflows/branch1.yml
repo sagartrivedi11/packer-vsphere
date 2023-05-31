@@ -38,6 +38,6 @@ jobs:
        ip: ${{ fromJSON(needs.job1.outputs.ip }}
     steps:
       - name: power & sleep
-        run: echo "power & sleep ${{ matrix.host }}"
+        run: echo "power & sleep ${{ matrix.ip }}"
       
  
