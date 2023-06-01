@@ -15,10 +15,10 @@ jobs:
     steps:
       - name: Set color
         id: set-color-var
-        run: echo "vapps=Hello" >> "$GITHUB_OUTPUT"  
-        shell: bash
-      - name: print value
-        run: echo "${{ steps.set-color-var.outputs.vapps }}"
+        run: ${{ github.workspace }}\DownloadScript.ps1  
+       # shell: bash
+      #- name: print value
+      #  run: echo "${{ steps.set-color-var.outputs.vapps }}"
       
          
     outputs:
