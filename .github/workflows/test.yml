@@ -25,11 +25,8 @@ jobs:
   get-color:
     runs-on: ubuntu-latest
     needs: job1
-    strategy:
-     matrix:
-      host: ${{ fromJson(needs.job1.outputs.vapps) }}
   
     steps:
       - name: power & sleep
-        run: echo ${{ matrix.host }}
+        run: echo ${{ needs.job1.outputs.vapps }}
  
