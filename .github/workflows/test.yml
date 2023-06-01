@@ -14,11 +14,9 @@ jobs:
 
     steps:
       - name: Set color
-        env:
-         test: '[192.168.0.1,192.168.0.2]'
         id: set-color-var
         run: echo "vapps=${{ github.workspace }}\DownloadScript.ps1" >> "$GITHUB_OUTPUT"  
-        shell: bash
+        #shell: bash
       - name: print value
         run: echo "${{ steps.set-color-var.outputs.vapps }}"
       
@@ -31,6 +29,6 @@ jobs:
     needs: job1
   
     steps:
-      - name: power & sleep
+      - name: print value
         run: echo "${{ needs.job1.outputs.vapps }}"
  
