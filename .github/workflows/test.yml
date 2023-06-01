@@ -16,7 +16,7 @@ jobs:
       - name: Set color
         id: set-color-var
         run: echo "vapps=Hello" >> "$GITHUB_OUTPUT"  
-        #shell: bash
+        shell: bash
       - name: print value
         run: echo "${{ steps.set-color-var.outputs.vapps }}"
       
