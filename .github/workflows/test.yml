@@ -31,6 +31,6 @@ jobs:
   
     steps:
       - name: power & sleep
-        run: echo ${{ needs.job1.outputs.vapps }}
+        run: echo "${{ needs.job1.outputs.vapps }}"
         shell: pwsh
  
