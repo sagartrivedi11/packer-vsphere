@@ -17,7 +17,10 @@ jobs:
         env:
          test: '[192.168.0.1,192.168.0.2]'
         id: set-color-var
-        run: echo "vapps=${{ github.workspace }}\DownloadScript.ps1" >> "$GITHUB_OUTPUT"       
+        run: echo "vapps=${{ github.workspace }}\DownloadScript.ps1" >> "$GITHUB_OUTPUT"  
+      - name: print value
+        run: echo ${{ steps.set-color-var.outputs.vapps }}
+        shell: pwsh
          
     outputs:
       vapps: ${{ steps.set-color-var.outputs.vapps }} 
