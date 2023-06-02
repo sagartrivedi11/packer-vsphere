@@ -38,5 +38,5 @@ jobs:
       # ip: ${{ fromJSON(needs.job1.outputs.ip) }}
     steps:
       - name: install product on ${{matrix.host.ip_address}}
-        run: echo "installation will start on ${{matrix.host.ip_address}}"
+        run: echo "installation will start"
  
