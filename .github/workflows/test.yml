@@ -23,7 +23,7 @@ jobs:
         env:
          setup: "[{'name':'product1'},{'name':'product2'}]"
         id: set-product
-        run: echo "produt=${{ env.setup }}" >> "$GITHUB_OUTPUT"
+        run: echo "product=${{ env.setup }}" >> "$GITHUB_OUTPUT"
        
          
          
