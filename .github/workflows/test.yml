@@ -32,13 +32,13 @@ jobs:
       product: ${{ steps.set-product.outputs.product }}
                 
   get-color:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: job1
     strategy:
      matrix:
       host: ${{fromJSON(needs.job1.outputs.vapps)}}
       include: 
-      - bundle: hello
+      - bundle: ${{needs.job1.outputs.product}}
     steps:
       - name: install ${{matrix.include.bundle}} on ${{matrix.host.ip_address}}
         run: echo "installation will start"
