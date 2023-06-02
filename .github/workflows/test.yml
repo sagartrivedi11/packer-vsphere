@@ -38,7 +38,7 @@ jobs:
      matrix:
       host: ${{fromJSON(needs.job1.outputs.vapps)}}
       include: 
-      - bundle: ${{fromJSON(needs.job1.outputs.product)}}
+      - bundle: ${{needs.job1.outputs.product}}
     steps:
       - name: install ${{matrix.include.bundle}} on ${{matrix.host.ip_address}}
         run: echo "installation will start"
