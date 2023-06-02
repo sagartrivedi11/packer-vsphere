@@ -32,11 +32,8 @@ jobs:
   get-color:
     runs-on: ubuntu-latest
     needs: job1
-    strategy:
-     matrix:
-      host: ${{needs.job1.outputs.vapps}}
-      # ip: ${{ fromJSON(needs.job1.outputs.ip) }}
+   
     steps:
-      - name: install product on ${{matrix.host}}
+      - name: install product on ${{needs.jo1.outputs.vapps}}
         run: echo "installation will start"
  
