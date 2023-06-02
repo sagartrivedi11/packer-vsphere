@@ -26,7 +26,7 @@ jobs:
          
          
     outputs:
-      vapps: ${{ steps.set-color-var.outputs.vapps }} 
+      vapps: ${{ fromJSON(steps.set-color-var.outputs.vapps).ip_address }} 
       ip: ${{ steps.get-ip.outputs.ip }}
                 
   get-color:
@@ -34,7 +34,7 @@ jobs:
     needs: job1
     strategy:
      matrix:
-      host: ${{fromJSON(needs.job1.outputs.vapps).ip_address}}
+      host: ${{fromJSON(needs.job1.outputs.vapps)}}
       # ip: ${{ fromJSON(needs.job1.outputs.ip) }}
     steps:
       - name: install product on ${{matrix.host}}
