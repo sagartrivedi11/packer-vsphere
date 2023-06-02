@@ -11,13 +11,12 @@ jobs:
 
   job1:
     runs-on: windows-latest    
-
+    env:
+      out: "[{'vapp_id': 'loadtest-0', 'ip_address': '149.212.205.9'}, {'vapp_id': 'loadtest-1', 'ip_address': '149.212.205.11'}]"
     steps:
       - name: Set color
         id: set-color-var
-        run: ${{ github.workspace }}\DownloadScript.ps1
-        shell: pwsh
-      #- name: print value
+        run: "vapps=${{ env.out }}"
       #  run: echo "${{ steps.set-color-var.outputs.vapps }}"
       
          
