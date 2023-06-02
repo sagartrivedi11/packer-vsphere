@@ -40,6 +40,6 @@ jobs:
       include: 
       - bundle: ${{fromJSON(needs.job1.outputs.product)}}
     steps:
-      - name: install ${{matrix.include.bundle.name}} on ${{matrix.host.ip_address}}
+      - name: install ${{matrix.include.bundle}} on ${{matrix.host.ip_address}}
         run: echo "installation will start"
  
