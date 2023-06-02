@@ -19,15 +19,17 @@ jobs:
         id: set-color-var
         run: echo "vapps=${{ env.test }}" >> "$GITHUB_OUTPUT"
     
-      - name: get ip
-        id: get-ip
-        run: echo "ip=${{ fromJSON(steps.set-color-var.outputs.vapps).ip_address }}" >> "$GITHUB_OUTPUT"
+      - name: set product
+        env:
+         setup: "[{'name':'product1'},{'name':'product2'}]"
+        id: set-product
+        run: echo "produt=${{ env.setup }}" >> "$GITHUB_OUTPUT"
        
          
          
     outputs:
       vapps: ${{steps.set-color-var.outputs.vapps}} 
-      ip: ${{ steps.get-ip.outputs.ip }}
+      product: ${{ steps.set-product.outputs.product }}
                 
   get-color:
     runs-on: ubuntu-latest
@@ -35,8 +37,8 @@ jobs:
     strategy:
      matrix:
       host: ${{fromJSON(needs.job1.outputs.vapps)}}
-      # ip: ${{ fromJSON(needs.job1.outputs.ip) }}
+      bundle: ${{ fromJSON(needs.job1.outputs.product) }}
     steps:
-      - name: install product on ${{matrix.host.ip_address}}
+      - name: install ${{matrix.bundle}} on ${{matrix.host.ip_address}}
         run: echo "installation will start"
  
