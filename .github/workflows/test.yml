@@ -37,6 +37,6 @@ jobs:
       host: ${{fromJSON(needs.job1.outputs.vapps)}}
       # ip: ${{ fromJSON(needs.job1.outputs.ip) }}
     steps:
-      - name: power & sleep
-        run: echo "power & sleep ${{matrix.host.ip_address}}"
+      - name: install product on ${{matrix.host.ip_address}}
+        run: echo "installation will start on ${{matrix.host.ip_address}}"
  
