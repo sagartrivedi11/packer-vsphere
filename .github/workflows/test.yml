@@ -30,12 +30,20 @@ env:
     }
 
 jobs: 
+ set:
+  runs-on: ubuntu-latest
+  steps:
+   - name: set
+     id: set-val
+     run: echo "vapps=${{ env.test }}" >> "$GITHUB_OUTPUT"
+  outputs:
+      vapps: ${{steps.set-val.outputs.vapps}} 
  test:
     runs-on: ubuntu-latest
+    needs: set
     strategy:
       matrix:
-        product: ${{ join(fromJson(env.JSON_DATA).products[*].product, '\n') }}
-        ip: ${{ join(fromJson(env.JSON_DATA).products[*].ip, '\n') }}
+        product: ${{fromJson(needs.set.outputs.vapps)}}
     steps:
       - name: Use Matrix Values
-        run: echo "${{ matrix.product }}  ${{ matrix.ip }}"
+        run: echo "${{ matrix.product}}"
