@@ -41,7 +41,7 @@ jobs:
     needs: set
     strategy:
       matrix:
-        product: ${{fromJson(needs.set.outputs.vapps)}}
+        product: ${{needs.set.outputs.vapps}}
     steps:
       - name: Use Matrix Values
         run: echo "${{ matrix.product}}"
