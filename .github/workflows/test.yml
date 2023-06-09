@@ -32,7 +32,10 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        product: ${{ fromJson(env.JSON_DATA).products[*].product }}
+        ip: ${{ fromJson(env.JSON_DATA).products[*].ip }}
     steps:
       - name: Use Matrix Values
-        run: echo "${{env.JSON_DATA}}"
+        run: echo "${{matrix.product}}  ${{matrix.ip}}"
