@@ -51,4 +51,4 @@ jobs:
 
     steps:
       - name: Use Matrix Values
-        run: echo "Product ${{env.json}}"
+        run: echo "Product ${{env.JSON_DATA}}"
