@@ -39,7 +39,6 @@ jobs:
      # host: ${{fromJSON($env.json).products}}
       
     steps:
-      - name: install ${{matrix.host}}
-        run:  node -e "const matrix = JSON.parse(process.env.json); matrix.products.forEach(p => console.log(`${p.product} ${p.ip}`));" > matrix.txt
-
+      - name: print 
+        run:  ${{env.json}}
  
