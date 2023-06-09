@@ -4,8 +4,7 @@ on: [push]
 
 env:
   JSON_DATA: |
-    {
-      "products": [
+   [
         {
           "product": "ReferenceClient",
           "ip": "192.168.0.1"
@@ -27,7 +26,6 @@ env:
           "ip": "192.168.0.5"
         }
       ]
-    }
 
 jobs: 
  set:
