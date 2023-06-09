@@ -41,14 +41,13 @@ jobs:
         id: create_matrix
         run: |
           echo "${{ env.JSON_DATA }}" > jsonfile.json
-          matrix=$(pwsh -Command "$json = Get-Content -Raw jsonfile.json | ConvertFrom-Json; $matrix = $json.products | foreach { '`"product`": `"$($_.product)`", `"ip`": `"$($_.ip)`"' }; Write-Host $matrix")
+          matrix=$(pwsh -Command "$json = Get-Content -Raw jsonfile.json | ConvertFrom-Json; $matrix = $json.products | ConvertTo-Json -Compress; Write-Host $matrix")
           echo "MATRIX=$matrix" >> $GITHUB_ENV
 
   test:
     needs: build
     strategy:
-      matrix:
-        include: ${{ matrix(env.MATRIX) }}
+      matrix: ${{ fromJson(env.MATRIX) }}
 
     runs-on: ubuntu-latest
 
