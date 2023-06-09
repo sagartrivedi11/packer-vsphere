@@ -33,7 +33,7 @@ jobs:
   steps:
    - name: set
      id: set-val
-     run: echo "vapps=${{ env.test }}" >> "$env:GITHUB_OUTPUT"
+     run: echo "vapps=${{ env.JSON_DATA }}" >> "$env:GITHUB_OUTPUT"
   outputs:
       vapps: ${{steps.set-val.outputs.vapps}} 
  test:
@@ -41,4 +41,4 @@ jobs:
     needs: set
     steps:
       - name: Use Matrix Values
-        run: echo "${{ needs.set.outputs.vapps}}"
+        run: echo "${{needs.set.outputs.vapps}}"
