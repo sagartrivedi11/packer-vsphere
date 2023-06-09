@@ -1,70 +1,45 @@
-name: Matrix Example
+name: Get-IP
 
-on: [push]
-
+on:
+  push:
+    branches: [ "testing" ]
+  pull_request:
+    branches: [ "testing" ]
+  workflow_dispatch:
+    
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
 
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        node-version: [12.x, 14.x, 16.x]
+  job1:
+    runs-on: ubuntu-latest    
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Build and test
-        run: |
-          npm install
-          npm test
-
-  matrix:
-    runs-on: ubuntu-latest
-
+      - name: Set color
+        env:
+         test: "[{'vapp_id': 'loadtest-0', 'ip_address': '192.212.205.9'}, {'vapp_id': 'loadtest-1', 'ip_address': '192.212.205.11'}]"
+        id: set-color-var
+        run: echo "vapps=${{ env.test }}" >> "$GITHUB_OUTPUT"
+    
+      - name: set product
+        env:
+         setup: "[product1,product2]"
+        id: set-product
+        run: echo "product=${{ env.setup }}" >> "$GITHUB_OUTPUT"
+       
+         
+         
+    outputs:
+      vapps: ${{steps.set-color-var.outputs.vapps}} 
+      product: ${{ steps.set-product.outputs.product }}
+                
+  get-color:
+    runs-on: windows-latest
+    needs: job1
     strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-        node-version:
-          - 12.x
-          - 14.x
-          - 16.x
-
+     matrix:
+      host: ${{fromJSON(needs.job1.outputs.vapps)}}
+      bundle: ${{needs.job1.outputs.product}}
+      
     steps:
-      - name: Generate Matrix
-        id: matrix
-        run: |
-          echo "::set-output name=os::${{ join(matrix.os, ',') }}"
-          echo "::set-output name=node-version::${{ join(matrix.node-version, ',') }}"
-
-  build2:
-    needs: matrix
-    runs-on: ${{ fromJson(needs.matrix.outputs.os) }}
-
-    strategy:
-      matrix:
-        os: ${{ fromJson(needs.matrix.outputs.os) }}
-        node-version: ${{ fromJson(needs.matrix.outputs.node-version) }}
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Build and test
-        run: |
-          npm install
-          npm test
+      - name: install ${{matrix.bundle}} on ${{matrix.host.ip_address}}
+        run: echo "installation will start on"
+ 
