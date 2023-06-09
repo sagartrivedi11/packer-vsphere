@@ -1,7 +1,9 @@
-name: Matrix Example
+name: Example Workflow
 
-on: [push]
-
+on:
+  push:
+    branches:
+      - main
 env:
   JSON_DATA: |
     {
@@ -30,12 +32,33 @@ env:
     }
 
 jobs:
-  test:
+  example_job:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        product: ${{ fromJson($env.JSON_DATA).products[*].product }}
-        ip: ${{ fromJson($env.JSON_DATA).products[*].ip }}
+
     steps:
-      - name: Use Matrix Values
-        run: echo "${{matrix.product}}  ${{matrix.ip}}"
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up strategy matrix
+        id: setup_matrix
+        run: |
+          echo '${{ toJson($env.JSON_DATA) }}' > data.json
+          # Replace <your JSON data> with the actual JSON data
+
+          # Parse the JSON data and store it in a variable
+          echo "::set-output name=data::$(cat data.json | fromJson)"
+
+      - name: Use JSON data in strategy matrix
+        run: |
+          # Get the parsed JSON data from the previous step's output
+          ${{ steps.setup_matrix.outputs.data }}
+
+          # Create the strategy matrix using the parsed data
+          strategy:
+            matrix:
+              product: ${{ fromJson(steps.setup_matrix.outputs.data).products[*].product }}
+              ip: ${{ fromJson(steps.setup_matrix.outputs.data).products[*].ip }}
+
+          # Print the values of the strategy matrix
+          echo "Product: ${{ matrix.product }}"
+          echo "IP: ${{ matrix.ip }}"
