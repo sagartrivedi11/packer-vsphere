@@ -39,9 +39,6 @@ jobs:
  test:
     runs-on: ubuntu-latest
     needs: set
-    strategy:
-      matrix:
-        product: ${{needs.set.outputs.vapps}}
     steps:
       - name: Use Matrix Values
-        run: echo "${{ matrix.product}}"
+        run: echo "${{ needs.set.outputs.vapps}}"
