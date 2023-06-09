@@ -30,12 +30,37 @@ env:
     }
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Use Environment Variable
+        run: echo "JSON Data ${{ env.JSON_DATA }}"
+
+      - name: Create Matrix
+        id: create_matrix
+        run: |
+          echo "${{ env.JSON_DATA }}" > jsonfile.json
+          $json = Get-Content -Raw jsonfile.json | ConvertFrom-Json
+          $matrix = $json.products | ForEach-Object {
+            [PSCustomObject]@{
+              product = $_.product
+              ip = $_.ip
+            }
+          } | ConvertTo-Json -Depth 100
+          echo "::set-output name=matrix::$matrix"
+
+      - name: Print Matrix
+        run: echo ${{ steps.create_matrix.outputs.matrix }}
+
+
+
   test:
     runs-on: ubuntu-latest
+    needs: build
     strategy:
-      matrix:
-        product: ${{ fromJson(env.JSON_DATA).products[*].product }}
-        ip: ${{ fromJson(env.JSON_DATA).products[*].ip }}
+       matrix:
+        matrix: ${{ fromJson(build.create_matrix.outputs.matrix) }}
     steps:
-      - name: Use Matrix Values
-        run: echo "${{matrix.product}}  ${{matrix.ip}}"
+    - name: print
+      run: echo "Running tests for ${{ matrix.product }} with IP ${{ matrix.ip }}"
