@@ -44,12 +44,12 @@ jobs:
   test:
     needs: parse-json
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        product: ${{ fromJson(needs.parse-json.outputs.products) }}
-        ip: ${{ fromJson(needs.parse-json.outputs.ips) }}
+    #strategy:
+     # matrix:
+      #  product: ${{ fromJson(needs.parse-json.outputs.products) }}
+       # ip: ${{ fromJson(needs.parse-json.outputs.ips) }}
 
     steps:
       - name: Use Matrix Values
         run: |
-          echo "${{ matrix.product }}  ${{ matrix.ip }}"
+          echo "${{needs.parse-json.outputs.products}}"
