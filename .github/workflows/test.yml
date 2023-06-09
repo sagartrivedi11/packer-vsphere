@@ -6,7 +6,8 @@ on:
   pull_request:
     branches: [ "testing" ]
   workflow_dispatch:
-    
+env:
+ json: "{\"products\":[{\"product\":\"ReferenceClient\",\"ip\":\"192.168.0.1\"},{\"product\":\"WINCCCA\",\"ip\":\"192.168.0.2\"},{\"product\":\"WINCCPRO\",\"ip\":\"192.168.0.3\"},{\"product\":\"WINCCPRO,LagecyPanel,FeatureConfiguration\",\"ip\":\"192.168.0.4\"},{\"product\":\"WINCCPRO,LegacyPanel\",\"ip\":\"192.168.0.5\"}]}"
 jobs:
 
   job1:
@@ -25,7 +26,7 @@ jobs:
         id: set-product
         run: echo "product=${{ env.setup }}" >> "$GITHUB_OUTPUT"
        
-         
+         product {'product1':'192.168.0.1'},{'product2':'192.168.0.2'}
          
     outputs:
       vapps: ${{steps.set-color-var.outputs.vapps}} 
@@ -36,10 +37,9 @@ jobs:
     needs: job1
     strategy:
      matrix:
-      host: ${{fromJSON(needs.job1.outputs.vapps)}}
-      bundle: ${{fromJSON(needs.job1.outputs.product)}}
+      host: ${{fromJSON(env.json).products}}
       
     steps:
-      - name: install ${{matrix.bundle.product}} on ${{matrix.host.ip_address}}
+      - name: install ${{matrix.host}}
         run: echo "installation will start on"
  
