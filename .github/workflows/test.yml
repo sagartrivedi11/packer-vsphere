@@ -2,44 +2,32 @@ name: Matrix Example
 
 on: [push]
 
-env:
-  JSON_DATA: |
-   "[
-        {
-          "product": "ReferenceClient",
-          "ip": "192.168.0.1"
-        },
-        {
-          "product": "WINCCCA",
-          "ip": "192.168.0.2"
-        },
-        {
-          "product": "WINCCPRO",
-          "ip": "192.168.0.3"
-        },
-        {
-          "product": "WINCCPRO,LagecyPanel,FeatureConfiguration",
-          "ip": "192.168.0.4"
-        },
-        {
-          "product": "WINCCPRO,LegacyPanel",
-          "ip": "192.168.0.5"
-        }
-      ]"
-
-jobs: 
- set:
-  runs-on: ubuntu-latest
-  steps:
-   - name: set
-     id: set-val
-     run: echo "vapps=${{ env.JSON_DATA }}" >> "$GITHUB_OUTPUT"
-   - name: print val
-     run: "${{steps.set-val.vapps}}" 
-
- test:
+jobs:
+  print-data:
     runs-on: ubuntu-latest
-    needs: set
+
     steps:
-      - name: Use Matrix Values
-        run: echo "${{needs.set.outputs.vapps}}"
+      - name: Print JSON Data
+        run: |
+          echo '${{ toJSON([
+            {
+              "product": "ReferenceClient",
+              "ip": "192.168.0.1"
+            },
+            {
+              "product": "WINCCCA",
+              "ip": "192.168.0.2"
+            },
+            {
+              "product": "WINCCPRO",
+              "ip": "192.168.0.3"
+            },
+            {
+              "product": "WINCCPRO,LagecyPanel,FeatureConfiguration",
+              "ip": "192.168.0.4"
+            },
+            {
+              "product": "WINCCPRO,LegacyPanel",
+              "ip": "192.168.0.5"
+            }
+          ]) }}'
