@@ -37,7 +37,7 @@ jobs:
     needs: job1
     strategy:
      matrix:
-      host: ${{fromJSON(env.json).products}}
+      host: ${{fromJSON($env.json).products}}
       
     steps:
       - name: install ${{matrix.host}}
