@@ -1,31 +1,32 @@
 name: Matrix Example
 
 on: [push]
-
-env: |
-  JSON_DATA: 
-  '[
+env:
+  JSON_DATA: |
     {
-      "product": "ReferenceClient",
-      "ip": "192.168.0.1"
-    },
-    {
-      "product": "WINCCCA",
-      "ip": "192.168.0.2"
-    },
-    {
-      "product": "WINCCPRO",
-      "ip": "192.168.0.3"
-    },
-    {
-      "product": "WINCCPRO,LagecyPanel,FeatureConfiguration",
-      "ip": "192.168.0.4"
-    },
-    {
-      "product": "WINCCPRO,LegacyPanel",
-      "ip": "192.168.0.5"
+      "products": [
+        {
+          "product": "ReferenceClient",
+          "ip": "192.168.0.1"
+        },
+        {
+          "product": "WINCCCA",
+          "ip": "192.168.0.2"
+        },
+        {
+          "product": "WINCCPRO",
+          "ip": "192.168.0.3"
+        },
+        {
+          "product": "WINCCPRO,LagecyPanel,FeatureConfiguration",
+          "ip": "192.168.0.4"
+        },
+        {
+          "product": "WINCCPRO,LegacyPanel",
+          "ip": "192.168.0.5"
+        }
+      ]
     }
-  ]'
 
 jobs:
   print-data:
