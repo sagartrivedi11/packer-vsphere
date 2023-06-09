@@ -29,13 +29,13 @@ env:
       ]
     }
 
-jobs:
-  test:
+jobs: 
+ test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        product: ${{ fromJson(env.JSON_DATA).products[*].product }}
-        ip: ${{ fromJson(env.JSON_DATA).products[*].ip }}
+        product: ${{ join(fromJson(env.JSON_DATA).products[*].product, '\n') }}
+        ip: ${{ join(fromJson(env.JSON_DATA).products[*].ip, '\n') }}
     steps:
       - name: Use Matrix Values
-        run: echo "${{matrix.product}}  ${{matrix.ip}}"
+        run: echo "${{ matrix.product }}  ${{ matrix.ip }}"
