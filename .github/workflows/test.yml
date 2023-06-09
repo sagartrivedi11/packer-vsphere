@@ -21,7 +21,7 @@ jobs:
     
       - name: set product
         env:
-         setup: "[product1,product2]"
+         setup: "[{'product':'product1'},{'product':'product2'}]"
         id: set-product
         run: echo "product=${{ env.setup }}" >> "$GITHUB_OUTPUT"
        
@@ -37,7 +37,7 @@ jobs:
     strategy:
      matrix:
       host: ${{fromJSON(needs.job1.outputs.vapps)}}
-      bundle: ${{needs.job1.outputs.product}}
+      bundle: ${{fromJSON(needs.job1.outputs.product)}}
       
     steps:
       - name: install ${{matrix.bundle}} on ${{matrix.host.ip_address}}
