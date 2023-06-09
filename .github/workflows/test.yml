@@ -41,5 +41,5 @@ jobs:
       - bundle: ${{needs.job1.outputs.product}}
     steps:
       - name: install ${{matrix.include.bundle}} on ${{matrix.host.ip_address}}
-        run: echo "installation will start"
+        run: echo "installation will start on"
  
