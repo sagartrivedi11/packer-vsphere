@@ -1,44 +1,32 @@
-name: Get-IP
+name: Matrix Example
 
-on:
-  push:
-    branches: [ "testing" ]
-  pull_request:
-    branches: [ "testing" ]
-  workflow_dispatch:
-env:
- json: "{\"products\":[{\"product\":\"ReferenceClient\",\"ip\":\"192.168.0.1\"},{\"product\":\"WINCCCA\",\"ip\":\"192.168.0.2\"},{\"product\":\"WINCCPRO\",\"ip\":\"192.168.0.3\"},{\"product\":\"WINCCPRO,LagecyPanel,FeatureConfiguration\",\"ip\":\"192.168.0.4\"},{\"product\":\"WINCCPRO,LegacyPanel\",\"ip\":\"192.168.0.5\"}]}"
+on: [push]
+
 jobs:
-
-  job1:
-    runs-on: ubuntu-latest    
+  build:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Set color
-        env:
-         test: "[{'vapp_id': 'loadtest-0', 'ip_address': '192.212.205.9'}, {'vapp_id': 'loadtest-1', 'ip_address': '192.212.205.11'}]"
-        id: set-color-var
-        run: echo "vapps=${{ env.test }}" >> "$GITHUB_OUTPUT"
-    
-      - name: set product
-        env:
-         setup: "[{'product':'product1'},{'product':'product2'}]"
-        id: set-product
-        run: echo "product=${{ env.setup }}" >> "$GITHUB_OUTPUT"
-       
-         
-    outputs:
-      vapps: ${{steps.set-color-var.outputs.vapps}} 
-      product: ${{ steps.set-product.outputs.product }}
-                
-  get-color:
-    runs-on: windows-latest
-    needs: job1
-   # strategy:
-    # matrix:
-     # host: ${{fromJSON($env.json).products}}
-      
+      - name: Set JSON Value
+        run: echo "::set-env name=JSON_DATA::{\"products\":[{\"product\":\"ReferenceClient\",\"ip\":\"192.168.0.1\"},{\"product\":\"WINCCCA\",\"ip\":\"192.168.0.2\"},{\"product\":\"WINCCPRO\",\"ip\":\"192.168.0.3\"},{\"product\":\"WINCCPRO,LagecyPanel,FeatureConfiguration\",\"ip\":\"192.168.0.4\"},{\"product\":\"WINCCPRO,LegacyPanel\",\"ip\":\"192.168.0.5\"}]}"
+
+      - name: Use Environment Variable
+        run: |
+          echo "JSON Data: $env:JSON_DATA"
+
+          # Dynamically create matrix using the environment variable
+          $json = (ConvertFrom-Json -InputObject $env:JSON_DATA)
+          $matrix = $json.products | ForEach-Object { "{`"product`": `"$($_.product)`", `"ip`": `"$($_.ip)`"}" }
+          Write-Output "::set-output name=matrix::$matrix"
+
+  test:
+    needs: build
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.build.outputs.matrix) }}
+
+    runs-on: ubuntu-latest
+
     steps:
-      - name: print 
-        run:  ${{env.json}}
- 
+      - name: Use Matrix Values
+        run: echo "Product ${{ matrix.product }}, IP ${{ matrix.ip }}"
