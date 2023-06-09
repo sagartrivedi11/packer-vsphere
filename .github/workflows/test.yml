@@ -4,7 +4,7 @@ on: [push]
 
 env:
   JSON_DATA: |
-   [
+   "[
         {
           "product": "ReferenceClient",
           "ip": "192.168.0.1"
@@ -25,7 +25,7 @@ env:
           "product": "WINCCPRO,LegacyPanel",
           "ip": "192.168.0.5"
         }
-      ]
+      ]"
 
 jobs: 
  set:
