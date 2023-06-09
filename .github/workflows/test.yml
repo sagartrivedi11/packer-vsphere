@@ -30,33 +30,12 @@ env:
     }
 
 jobs:
-  generate-matrix:
+  test:
     runs-on: ubuntu-latest
-
-    steps:
-      - name: Use Environment Variable
-        run: echo "JSON Data ${{ env.JSON_DATA }}"
-
-      - name: Create Matrix
-        id: create_matrix
-        run: |
-          echo "${{ env.JSON_DATA }}" > jsonfile.json
-          matrix=$(jq -r '.products | map("\(.product):\(.ip)") | join(" ")')
-          echo "::set-output name=matrix::$matrix"
-
-  run-tests:
-    needs: generate-matrix
     strategy:
       matrix:
-        include:
-           ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
-
-    runs-on: ubuntu-latest
-
+        product: ${{ fromJson($env.JSON_DATA).products[*].product }}
+        ip: ${{ fromJson($env.JSON_DATA).products[*].ip }}
     steps:
-      - name: Print Matrix
-        run: echo ${{ matrix.product }}:${{ matrix.ip }}
-
-      - name: Run Tests
-        run: |
-          echo "Running tests for ${{ matrix.product }} with IP ${{ matrix.ip }}"
+      - name: Use Matrix Values
+        run: echo "${{matrix.product}}  ${{matrix.ip}}"
