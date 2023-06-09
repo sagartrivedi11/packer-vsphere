@@ -46,11 +46,9 @@ jobs:
 
   test:
     needs: build
-    strategy:
-      matrix: ${{ fromJson(env.MATRIX) }}
 
     runs-on: ubuntu-latest
 
     steps:
       - name: Use Matrix Values
-        run: echo "Product ${{ matrix.product }}, IP ${{ matrix.ip }}"
+        run: echo "Product ${{env.json}}"
