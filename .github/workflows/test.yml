@@ -30,7 +30,7 @@ env:
     }
 
 jobs:
-  build:
+  generate-matrix:
     runs-on: ubuntu-latest
 
     steps:
@@ -41,26 +41,22 @@ jobs:
         id: create_matrix
         run: |
           echo "${{ env.JSON_DATA }}" > jsonfile.json
-          $json = Get-Content -Raw jsonfile.json | ConvertFrom-Json
-          $matrix = $json.products | ForEach-Object {
-            [PSCustomObject]@{
-              product = $_.product
-              ip = $_.ip
-            }
-          } | ConvertTo-Json -Depth 100
+          matrix=$(jq -r '.products | map("\(.product):\(.ip)") | join(" ")')
           echo "::set-output name=matrix::$matrix"
 
-      - name: Print Matrix
-        run: echo ${{ steps.create_matrix.outputs.matrix }}
-
-
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
+  run-tests:
+    needs: generate-matrix
     strategy:
-       matrix:
-        matrix: ${{ fromJson(build.create_matrix.outputs.matrix) }}
+      matrix:
+        include:
+           ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+
+    runs-on: ubuntu-latest
+
     steps:
-    - name: print
-      run: echo "Running tests for ${{ matrix.product }} with IP ${{ matrix.ip }}"
+      - name: Print Matrix
+        run: echo ${{ matrix.product }}:${{ matrix.ip }}
+
+      - name: Run Tests
+        run: |
+          echo "Running tests for ${{ matrix.product }} with IP ${{ matrix.ip }}"
