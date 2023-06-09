@@ -30,25 +30,9 @@ env:
     }
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Use Environment Variable
-        run: echo "JSON Data ${{ env.JSON_DATA }}"
-
-      - name: Generate Matrix
-        id: create_matrix
-        run: |
-          echo "${{ env.JSON_DATA }}" > jsonfile.json
-          matrix=$(pwsh -Command "$json = Get-Content -Raw jsonfile.json | ConvertFrom-Json; $matrix = $json.products | ConvertTo-Json -Compress; Write-Host $matrix")
-          echo "MATRIX=$matrix" >> $GITHUB_ENV
-
   test:
-    needs: build
-
     runs-on: ubuntu-latest
 
     steps:
       - name: Use Matrix Values
-        run: echo "Product ${{env.JSON_DATA}}"
+        run: echo "${{env.JSON_DATA}}"
