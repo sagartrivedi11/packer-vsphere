@@ -29,10 +29,21 @@ env:
     }
 
 jobs:
-  print-data:
+  test:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        product: ${{ steps.parse-json.outputs.products[*].product }}
+        ip: ${{ steps.parse-json.outputs.products[*].ip }}
+    
     steps:
-      - name: Print JSON Data
+      - name: Parse JSON
+        id: parse-json
         run: |
-          echo "$JSON_DATA"
+          echo "${{ env.JSON_DATA }}" > json_file
+          echo "::set-output name=products::$(jq -r '.products[] | .product' json_file)"
+          echo "::set-output name=ips::$(jq -r '.products[] | .ip' json_file)"
+
+      - name: Use Matrix Values
+        run: |
+          echo "${{ matrix.product }}  ${{ matrix.ip }}"
