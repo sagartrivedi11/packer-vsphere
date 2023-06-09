@@ -35,11 +35,12 @@ jobs:
   get-color:
     runs-on: windows-latest
     needs: job1
-    strategy:
-     matrix:
-      host: ${{fromJSON($env.json).products}}
+   # strategy:
+    # matrix:
+     # host: ${{fromJSON($env.json).products}}
       
     steps:
       - name: install ${{matrix.host}}
-        run: echo "installation will start on"
+        run:  node -e "const matrix = JSON.parse(process.env.json); matrix.products.forEach(p => console.log(`${p.product} ${p.ip}`));" > matrix.txt
+
  
