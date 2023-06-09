@@ -2,22 +2,47 @@ name: Matrix Example
 
 on: [push]
 
+env:
+  JSON_DATA: |
+    {
+      "products": [
+        {
+          "product": "ReferenceClient",
+          "ip": "192.168.0.1"
+        },
+        {
+          "product": "WINCCCA",
+          "ip": "192.168.0.2"
+        },
+        {
+          "product": "WINCCPRO",
+          "ip": "192.168.0.3"
+        },
+        {
+          "product": "WINCCPRO,LagecyPanel,FeatureConfiguration",
+          "ip": "192.168.0.4"
+        },
+        {
+          "product": "WINCCPRO,LegacyPanel",
+          "ip": "192.168.0.5"
+        }
+      ]
+    }
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set JSON Value
-        run: echo "::set-env name=JSON_DATA::{\"products\":[{\"product\":\"ReferenceClient\",\"ip\":\"192.168.0.1\"},{\"product\":\"WINCCCA\",\"ip\":\"192.168.0.2\"},{\"product\":\"WINCCPRO\",\"ip\":\"192.168.0.3\"},{\"product\":\"WINCCPRO,LagecyPanel,FeatureConfiguration\",\"ip\":\"192.168.0.4\"},{\"product\":\"WINCCPRO,LegacyPanel\",\"ip\":\"192.168.0.5\"}]}"
-
       - name: Use Environment Variable
-        run: |
-          echo "JSON Data: $env:JSON_DATA"
+        run: echo "JSON Data ${{ env.JSON_DATA }}"
 
-          # Dynamically create matrix using the environment variable
-          $json = (ConvertFrom-Json -InputObject $env:JSON_DATA)
-          $matrix = $json.products | ForEach-Object { "{`"product`": `"$($_.product)`", `"ip`": `"$($_.ip)`"}" }
-          Write-Output "::set-output name=matrix::$matrix"
+      - name: Generate Matrix
+        id: create_matrix
+        run: |
+          echo "${{ env.JSON_DATA }}" > jsonfile.json
+          matrix=$(jq -r '.products[] | "\(.product) \(.ip)"' jsonfile.json)
+          echo "::set-output name=matrix::$matrix"
 
   test:
     needs: build
