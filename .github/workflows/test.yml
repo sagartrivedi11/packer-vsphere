@@ -35,7 +35,7 @@ jobs:
      id: set-val
      run: echo "vapps=${{ env.JSON_DATA }}" >> "$GITHUB_OUTPUT"
    - name: print val
-     run: echo ${{steps.set-val.vapps}} 
+     run: "${{steps.set-val.vapps}}" 
   outputs:
       vapps: ${{steps.set-val.outputs.vapps}} 
  test:
