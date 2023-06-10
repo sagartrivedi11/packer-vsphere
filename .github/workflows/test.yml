@@ -39,6 +39,8 @@ jobs:
         run: |
           echo "${{ env.JSON_DATA }}" > data.json
           echo "::set-output name=products::$(jq -r '.products[].product' data.json)"
+      - name: try
+        run: echo ${{steps.parse-json.outputs.products}}
 
   test:
     needs: extract_products
