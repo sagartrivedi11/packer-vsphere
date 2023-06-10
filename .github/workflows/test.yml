@@ -31,8 +31,10 @@ env:
 jobs:
   print-data:
     runs-on: ubuntu-latest
-
+    strategy:
+     matrix:
+      data: ${{fromJSON(env.JSON_DATA).products.product[*]}}
     steps:
       - name: Print JSON Data
         run: |
-          echo "${{fromJSON(env.JSON_DATA).products.product[*]}}"
+          echo "hello"
