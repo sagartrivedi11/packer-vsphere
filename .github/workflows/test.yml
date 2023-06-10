@@ -35,4 +35,4 @@ jobs:
     steps:
       - name: Print JSON Data
         run: |
-          echo "$JSON_DATA"
+          echo "${{env.JSON_DATA}}"
