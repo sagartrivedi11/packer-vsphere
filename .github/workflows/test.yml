@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
      matrix:
-      data: ${{fromJson(JSON_DATA).products.product[*]}}
+      data: ${{fromJson($JSON_DATA).products.product[*]}}
     steps:
       - name: Print JSON Data
         run: |
