@@ -27,14 +27,12 @@ env:
         }
       ]
     }
-
 jobs:
-  print-data:
+  test:
     runs-on: ubuntu-latest
     strategy:
-     matrix:
-      data: ${{fromJson($JSON_DATA).products.product[*]}}
+      matrix:
+        product: ${{ fromJSON(env.JSON_DATA).products[*].product }}
     steps:
-      - name: Print JSON Data
-        run: |
-          echo "hello"
+      - name: Use Matrix Value
+        run: echo "Product ${{ matrix.product }}"
