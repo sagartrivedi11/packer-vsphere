@@ -27,23 +27,25 @@ env:
         }
       ]
     }
+
 jobs:
   extract_products:
     runs-on: ubuntu-latest
+    outputs:
+      products: ${{ steps.parse-json.outputs.products }}
     steps:
-      - name: Extract Product Names
-        id: extract
+      - name: Parse JSON
+        id: parse-json
         run: |
           echo "${{ env.JSON_DATA }}" > data.json
-          products=$(jq -r '.products[].product' data.json)
-          echo "::set-output name=products::$products"
+          echo "::set-output name=products::$(jq -r '.products[].product' data.json)"
 
   test:
     needs: extract_products
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        product: ${{ steps.extract.outputs.products }}
+        product: ${{ needs.extract_products.outputs.products }}
     steps:
       - name: Use Matrix Value
         run: echo "Product ${{ matrix.product }}"
