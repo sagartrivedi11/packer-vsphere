@@ -43,9 +43,6 @@ jobs:
   test:
     needs: extract_products
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        product: ${{fromJson(needs.extract_products.outputs.products)}}
     steps:
       - name: Use Matrix Value
-        run: echo "Product ${{ matrix.product }}"
+        run: echo "Product ${{needs.extract_products.outputs.products}}"
