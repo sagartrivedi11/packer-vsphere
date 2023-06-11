@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ "testing" ]
   workflow_dispatch:
+env:
+  data: "[{'vapp_id': 'loadtest-0', 'ip_address': '149.212.205.9'}, {'vapp_id': 'loadtest-1', 'ip_address': '149.212.205.11'}]"
     
 jobs:
 
@@ -17,7 +19,7 @@ jobs:
         env:
          test: "[{'vapp_id': 'loadtest-0', 'ip_address': '149.212.205.9'}, {'vapp_id': 'loadtest-1', 'ip_address': '149.212.205.11'}]"
         id: set-color-var
-        run: echo "vapps=${{ env.test }}" >> "$GITHUB_OUTPUT"
+        run: echo "vapps=${{ env.data }}" >> "$GITHUB_OUTPUT"
     
       - name: set product
         env:
