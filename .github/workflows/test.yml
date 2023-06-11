@@ -1,50 +1,43 @@
 name: Matrix Example
 
-on: [push]
+on:
+  push:
+    branches:
+      - testing
+
 env:
   JSON_DATA: |
-    {
-      "products": [
-        {
-          "product": "ReferenceClient",
-          "ip": "192.168.0.1"
-        },
-        {
-          "product": "WINCCCA",
-          "ip": "192.168.0.2"
-        },
-        {
-          "product": "WINCCPRO",
-          "ip": "192.168.0.3"
-        },
-        {
-          "product": "WINCCPRO,LagecyPanel,FeatureConfiguration",
-          "ip": "192.168.0.4"
-        },
-        {
-          "product": "WINCCPRO,LegacyPanel",
-          "ip": "192.168.0.5"
-        }
-      ]
-    }
+    [
+      {
+        "product": "ReferenceClient",
+        "ip": "192.168.0.1"
+      },
+      {
+        "product": "WINCCCA",
+        "ip": "192.168.0.2"
+      },
+      {
+        "product": "WINCCPRO",
+        "ip": "192.168.0.3"
+      },
+      {
+        "product": "WINCCPRO,LagecyPanel,FeatureConfiguration",
+        "ip": "192.168.0.4"
+      },
+      {
+        "product": "WINCCPRO,LegacyPanel",
+        "ip": "192.168.0.5"
+      }
+    ]
 
 jobs:
-  extract_products:
-    runs-on: ubuntu-latest
-    outputs:
-      products: ${{ steps.parse-json.outputs.products }}
-    steps:
-      - name: Parse JSON
-        id: parse-json
-        run: |
-          echo "${{ env.JSON_DATA }}" > data.json
-          echo "::set-output name=products::$(jq -r '.products[].product' data.json)"
-      - name: try
-        run: echo ${{steps.parse-json.outputs.products}}
-
   test:
-    needs: extract_products
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        product: ${{ fromJson(env.JSON_DATA) }}
     steps:
       - name: Use Matrix Value
-        run: echo "Product ${{needs.extract_products.outputs.products}}"
+        run: |
+          echo "Product: ${{ matrix.product.product }}"
+          echo "IP: ${{ matrix.product.ip }}"
