@@ -29,18 +29,21 @@ env:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    outputs:
+      ip: ${{ steps.extract.outputs.ip }}
     steps:
       - name: Extract IP values
         id: extract
         run: |
-          echo "::set-output name=ips::$(echo '${{ env.JSON_DATA }}' | jq -r '.[].ip')"
+          echo "${{ env.JSON_DATA }}" | jq -r '.[].ip' > ips.txt
+          echo "::set-output name=ip::$(cat ips.txt)"
 
   test:
     needs: prepare
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ip: ${{ needs.prepare.outputs.ips }}
+        ip: ${{ needs.prepare.outputs.ip }}
     steps:
       - name: Use Matrix Value
         run: |
