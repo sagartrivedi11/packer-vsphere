@@ -25,12 +25,22 @@ env:
       }
     ]
 
+
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract IP values
+        id: extract
+        run: |
+          echo "::set-output name=ips::$(echo '${{ env.JSON_DATA }}' | jq -r '.[].ip')"
+
   test:
+    needs: prepare
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ip: ${{ fromJson(env.JSON_DATA)[*].ip }}
+        ip: ${{ needs.prepare.outputs.ips }}
     steps:
       - name: Use Matrix Value
         run: |
