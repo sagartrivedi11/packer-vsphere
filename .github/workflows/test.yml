@@ -25,9 +25,7 @@ jobs:
     steps:
       - name: Extract IP values
         id: extract
-        run: |
-          echo "${{ env.JSON_DATA }}" | jq -r '.[].ip' > ips.txt
-          echo "::set-output name=ip::$(cat ips.txt)"
+        run: echo "COUNT=${{env.JSON_DATA}}" >> $env:GITHUB_OUTPUT
 
   test:
     needs: prepare
