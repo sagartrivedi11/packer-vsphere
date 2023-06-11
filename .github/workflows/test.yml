@@ -7,7 +7,7 @@ on:
     branches: [ "testing" ]
   workflow_dispatch:
 env:
-  data: "[{'products':{'vapp_id': 'loadtest-0', 'ip_address': '149.212.205.9','template':'temp1'}, {'vapp_id': 'loadtest-1', 'ip_address': '149.212.205.11','template':'temp2'}}]"
+  data: "[{'vapp_id': 'loadtest-0', 'ip_address': '149.212.205.9','template':'temp1'}, {'vapp_id': 'loadtest-1', 'ip_address': '149.212.205.11','template':'temp2'}]"
 
 jobs:
 
@@ -30,7 +30,7 @@ jobs:
     needs: job1
     strategy:
      matrix:
-      host: ${{fromJSON(needs.job1.outputs.vapps).products}}
+      host: ${{fromJSON(needs.job1.outputs.vapps)}}
 
     steps:
       - name: install ${{matrix.host.vapp_id}} on ${{matrix.host.ip_address}} using template ${{matrix.host.template}}
