@@ -30,10 +30,8 @@ jobs:
   test:
     needs: prepare
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ip: ${{ needs.prepare.outputs.ip }}
+
     steps:
       - name: Use Matrix Value
         run: |
-          echo "IP: ${{ matrix.ip }}"
+          echo "IP: ${{ needs.prepare.outputs.ip  }}"
