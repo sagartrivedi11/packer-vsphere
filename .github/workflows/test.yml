@@ -25,7 +25,9 @@ jobs:
     steps:
       - name: Extract IP values
         id: extract
-        run: echo "ip=$JSON_DATA" >> $GITHUB_OUTPUT
+        run: |
+         $data = ${{env.JSON_DATA}} | ConvertFrom-Json 
+         echo "ip=$data" >> $GITHUB_OUTPUT
 
   test:
     needs: prepare
