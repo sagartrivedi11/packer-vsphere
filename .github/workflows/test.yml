@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        product: ${{ fromJson(env.JSON_DATA) }}
+        product: ${{ fromJson(JSON_DATA) }}
     steps:
       - name: Use Matrix Value
         run: |
