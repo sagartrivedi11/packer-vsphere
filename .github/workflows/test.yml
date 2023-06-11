@@ -30,7 +30,7 @@ jobs:
     needs: job1
     strategy:
      matrix:
-      host: ${{fromJSON(needs.job1.outputs.vapps)}}
+      host: ${{fromJSON(env.data)}}
 
     steps:
       - name: install ${{matrix.host.vapp_id}} on ${{matrix.host.ip_address}}
