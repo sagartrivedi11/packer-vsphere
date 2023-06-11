@@ -33,5 +33,5 @@ jobs:
       host: ${{fromJSON(needs.job1.outputs.vapps)}}
 
     steps:
-      - name: install ${{matrix.host.vapp_id}} on ${{matrix.host.ip_address}}
+      - name: install ${{matrix.host.vapp_id}} on ${{matrix.host.ip_address}} using template ${{matrix.host.template}}
         run: echo "installation will start"
