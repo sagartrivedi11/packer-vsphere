@@ -35,3 +35,10 @@ jobs:
     steps:
       - name: install
         run: sleep 60
+        
+  set-color:
+    runs-on: ubuntu-latest
+    needs: get-color
+    steps:
+      - name: testing
+        run: sleep 30
