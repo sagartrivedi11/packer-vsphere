@@ -7,7 +7,7 @@ on:
     branches: [ "testing" ]
   workflow_dispatch:
 env:
-  data: "[{'id': 't-0', 'ip_address': '1','template':'temp1','wait':30}, {'id': 't-1', 'ip': '11','template':'temp2','wait':60}]"
+  data: "[{'id': 't-0', 'ip_address': '1','template':'temp1','wait':30}, {'id': 't-1', 'ip': '11','template':'temp2','wait':600}]"
 
 jobs:
 
@@ -41,4 +41,4 @@ jobs:
     needs: get-color
     steps:
       - name: testing
-        run: sleep 30
+        run: echo "operation"
