@@ -33,7 +33,7 @@ jobs:
       host: ${{fromJSON(needs.job1.outputs.vapps)}}
 
     steps:
-      - name: install
+      - name: wait for "${{matrix.host.wait}}_time" 
         run: sleep ${{matrix.host.wait}}
         
   set-color:
