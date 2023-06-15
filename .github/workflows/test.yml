@@ -7,7 +7,7 @@ on:
     branches: [ "testing" ]
   workflow_dispatch:
 env:
-  data: "[{'id': 't-0', 'ip_address': '1','template':'temp1'}, {'id': 't-1', 'ip': '11','template':'temp2'}]"
+  data: "[{'id': 't-0', 'ip_address': '1','template':'temp1','wait':30}, {'id': 't-1', 'ip': '11','template':'temp2','wait':60}]"
 
 jobs:
 
@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: install
-        run: sleep 60
+        run: sleep ${{matrix.host.wait}}
         
   set-color:
     runs-on: ubuntu-latest
