@@ -14,7 +14,7 @@ jobs:
   matrix-job:
     strategy:
       matrix:
-        job-1: [600,60]        
+        job-1: [600,6]        
 
     runs-on: ubuntu-latest
 
