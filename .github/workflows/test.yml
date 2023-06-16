@@ -35,6 +35,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: my-artifact
-          path: ${{github.workspace}}/sample.exe
+          path: ${{github.workspace}}/artifacts/sample.exe
 
       # Use the downloaded artifact as needed
