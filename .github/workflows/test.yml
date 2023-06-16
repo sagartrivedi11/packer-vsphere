@@ -39,7 +39,7 @@ jobs:
       - name: created file
         run: |
          echo "This is the content of the text file" > ${{matrix.host.id}}.txt
-         cat example.txt
+         cat ${{matrix.host.id}}.txt
         
   set-color:
     runs-on: ubuntu-latest
