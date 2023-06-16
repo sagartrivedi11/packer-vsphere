@@ -6,40 +6,39 @@ on:
   pull_request:
     branches: [ "testing" ]
   workflow_dispatch:
-
+env:
+  data: "[{'id': 't-0', 'ip_address': '1','template':'temp1','wait':30}, {'id': 't-1', 'ip': '11','template':'temp2','wait':600}]"
 
 jobs:
+
   job1:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest    
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Perform your build/test steps here
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: my-artifact
-          path: ${{github.workspace}}/sample.exe
-
-  job2:
+      - name: Set color
+        id: set-color-var
+        run: echo "vapps=${{ env.data }}" >> "$GITHUB_OUTPUT"
+         
+         
+         
+    outputs:
+      vapps: ${{steps.set-color-var.outputs.vapps}} 
+      product: ${{ steps.set-product.outputs.product }}
+                
+  get-color:
     runs-on: ubuntu-latest
     needs: job1
+    strategy:
+     matrix:
+      host: ${{fromJSON(needs.job1.outputs.vapps)}}
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: my-artifact
-          path: ${{github.workspace}}/artifacts/sample.exe
-          
-      - name: Delete artifact
-        uses: actions/delete-artifact@v2
-        with:
-          name: my-artifact
-
-
+      - name: wait for ${{matrix.host.wait}}-${{matrix.host.wait}}
+        run: sleep ${{matrix.host.wait}}
+        
+  set-color:
+    runs-on: ubuntu-latest
+    needs: get-color
+    steps:
+      - name: testing
+        run: echo "operation"
