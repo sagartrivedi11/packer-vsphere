@@ -36,5 +36,10 @@ jobs:
         with:
           name: my-artifact
           path: ${{github.workspace}}/artifacts/sample.exe
+          
+      - name: Delete artifact
+        uses: actions/delete-artifact@v2
+        with:
+          name: my-artifact
 
-      # Use the downloaded artifact as needed
+
