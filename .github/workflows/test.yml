@@ -35,6 +35,11 @@ jobs:
     steps:
       - name: wait for ${{matrix.host.wait}}-${{matrix.host.wait}}
         run: sleep ${{matrix.host.wait}}
+      
+      - name: created file
+        run: |
+         echo "This is the content of the text file" > ${{matrix.host.id}}.txt
+         cat example.txt
         
   set-color:
     runs-on: ubuntu-latest
