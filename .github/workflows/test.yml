@@ -6,41 +6,35 @@ on:
   pull_request:
     branches: [ "testing" ]
   workflow_dispatch:
-env:
-  data: "[{'id': 't-0', 'ip_address': '1','template':'temp1','wait':30}, {'id': 't-1', 'ip': '11','template':'temp2','wait':600}]"
 
 
 jobs:
-  matrix-job:
-    strategy:
-      matrix:
-        job-1: [600,6]        
-
+  job1:
     runs-on: ubuntu-latest
 
     steps:
-       - name: Steps for matrix-job
-         run: sleep ${{matrix.job-1}}
-    
-       - name: Matrix Job
-         run: |
-          # Perform matrix job steps
-          echo "::set-output name=completed_job::job-1"    
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-  
-  next-job:
-    needs: matrix-job
+      # Perform your build/test steps here
 
-    if: ${{ always() }} # Ensures the job runs even if the previous jobs fail
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: ${{github.workspace}}/sample.exe
 
+  job2:
     runs-on: ubuntu-latest
-
+    needs: job1
     steps:
-      - name: Check if any matrix job is completed
-        run: |
-          if [[ -n "${{ needs.matrix-job.outputs.completed_job }}" ]]; then
-            echo "completed"
-          else
-            echo "No matrix jobs have completed yet."
-            exit 0
-          fi
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: my-artifact
+          path: ${{github.workspace}}/sample.exe
+
+      # Use the downloaded artifact as needed
