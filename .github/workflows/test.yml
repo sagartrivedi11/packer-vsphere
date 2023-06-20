@@ -6,47 +6,33 @@ on:
   pull_request:
     branches: [ "testing" ]
   workflow_dispatch:
-env:
-  data: "[{'id': 't-0', 'ip_address': '1','template':'temp1','wait':30}, {'id': 't-1', 'ip': '11','template':'temp2','wait':60}]"
+
 
 jobs:
-
-  job1:
-    runs-on: ubuntu-latest    
-
-    steps:
-      - name: Set color
-        id: set-color-var
-        run: echo "vapps=${{ env.data }}" >> "$GITHUB_OUTPUT"
-         
-         
-         
-    outputs:
-      vapps: ${{steps.set-color-var.outputs.vapps}} 
-      product: ${{ steps.set-product.outputs.product }}
-                
-  get-color:
+  upload-artifacts:
     runs-on: ubuntu-latest
-    needs: job1
-    strategy:
-     matrix:
-      host: ${{fromJSON(needs.job1.outputs.vapps)}}
 
     steps:
-      - name: wait for ${{matrix.host.wait}}-${{matrix.host.wait}}
-        run: sleep ${{matrix.host.wait}}
-      
-      - name: created file
-        run: |
-         echo "This is the content of the text file" > ${{matrix.host.id}}.txt
-         cat ${{matrix.host.id}}.txt
-        
-  set-color:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Perform your build/test steps here
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: ${{github.workspace}}/sample.exe
+
+  download-artifacts:
     runs-on: ubuntu-latest
-    needs: [get-color,job1]
-    strategy:
-     matrix:
-      host: ${{fromJSON(needs.job1.outputs.vapps)}}
+    needs: upload-artifacts
     steps:
-      - name: setting color for ${{matrix.host.id}}
-        run: echo "operation"
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: my-artifact
+          path: ${{github.workspace}}/artifacts/sample.exe
