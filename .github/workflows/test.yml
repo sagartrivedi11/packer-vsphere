@@ -31,29 +31,28 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-   
-      
-      - name: Retrieve artifact information
-        id: artifact-info
+
+      - name: Wait for artifact
+        id: wait
         run: |
-          response=$(curl -sS -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                     "https://api.github.com/repos/${{ github.repository }}/actions/artifacts")
-          download_url=$(echo "$response" | jq -r '.artifacts[] | select(.name == "my-artifact") | .archive_download_url')
-          echo "::set-output name=download_url::$download_url"
+          while true; do
+            echo "Checking for artifact..."
+            response=$(curl -sS -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                       "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts")
+            download_url=$(echo "$response" | jq -r '.artifacts[] | select(.name == "my-artifact" and .state == "completed") | .archive_download_url')
+            if [[ -n "$download_url" ]]; then
+              echo "::set-output name=download_url::$download_url"
+              break
+            fi
+            echo "Artifact not found or not completed. Retrying in 5 seconds..."
+            sleep 5
+          done
 
       - name: Download artifact
         id: download
         run: |
-          while true; do
-            echo "Downloading artifact..."
-            curl -LO "$(echo "${{ steps.artifact-info.outputs.download_url }}" | sed 's/\&/\\&/g')"
-            if [[ -f "${{ github.workspace }}/sample.exe" ]]; then
-              echo "Artifact downloaded successfully."
-              break
-            fi
-            echo "Artifact download failed. Retrying in 5 seconds..."
-            sleep 5
-          done
+          curl -LO "$(echo "${{ steps.wait.outputs.download_url }}" | sed 's/\&/\\&/g')"
+          echo "Artifact downloaded successfully."
 
       - name: Use downloaded artifact
         if: steps.download.conclusion == 'success'
