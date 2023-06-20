@@ -28,15 +28,34 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+     
+      - name: wait
+        run: sleep 60
+      
+      - name: Retrieve artifact information
+        id: artifact-info
+        run: |
+          response=$(curl -sS -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                     "https://api.github.com/repos/${{ github.repository }}/actions/artifacts")
+          download_url=$(echo "$response" | jq -r '.artifacts[] | select(.name == "my-artifact") | .archive_download_url')
+          echo "::set-output name=download_url::$download_url"
 
       - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: my-artifact
-          path: ${{ github.workspace }}/artifacts/sample.exe
-
-      - name: Wait for artifact
+        id: download
         run: |
-          while [ ! -f "${{ github.workspace }}/artifacts/sample.exe" ]; do
+          while true; do
+            echo "Downloading artifact..."
+            curl -LO "$(echo "${{ steps.artifact-info.outputs.download_url }}" | sed 's/\&/\\&/g')"
+            if [[ -f "${{ github.workspace }}/sample.exe" ]]; then
+              echo "Artifact downloaded successfully."
+              break
+            fi
+            echo "Artifact download failed. Retrying in 5 seconds..."
             sleep 5
           done
+
+      - name: Use downloaded artifact
+        if: steps.download.conclusion == 'success'
+        run: |
+          # Use the downloaded artifact here
+          echo "Artifact is ready to be used."
