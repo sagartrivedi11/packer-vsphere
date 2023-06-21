@@ -7,27 +7,48 @@ on:
     branches: [ "testing" ]
   workflow_dispatch:
 
+
 jobs:
   job1:
     runs-on: ubuntu-latest
 
     steps:
       - name: wait
-        run: sleep 90
+        run: sleep 30
       - name: Run Step 1
         run: |
           # Perform Step 1 actions here
-          echo "step1_completed=true" >> $GITHUB_ENV
+
+      - name: Upload synchronization artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: synchronization-artifact
+          path: path/to/synchronization-file.txt
 
   job2:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Wait for Step 1 Completion
+
+      - name: Wait for synchronization artifact
+        id: wait_for_artifact
+    
         run: |
-          while [[ "${{ env.step1_completed }}" != "true" ]]; do
+          while true; do
+            artifact=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" \
+              | jq -r '.artifacts[] | select(.name == "synchronization-artifact") | .id')
+            if [ -n "$artifact" ]; then
+              break
+            fi
             sleep 1
           done
+
+      - name: Download synchronization artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: synchronization-artifact
+          path: path/to/synchronization-artifact
 
       - name: Run Step 2
         run: |
