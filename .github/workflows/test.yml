@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest    
     strategy:
      matrix:
-      host: ${{fromJSON(needs.job1.outputs.vapps)}}
+      host: ${{fromJSON(env.data)}}
     steps:
       - name: Set color
         id: set-color-var
