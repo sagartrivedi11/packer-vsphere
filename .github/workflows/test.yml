@@ -6,54 +6,35 @@ on:
   pull_request:
     branches: [ "testing" ]
   workflow_dispatch:
-
+env:
+  data: "[{'id': 't-0', 'ip_address': '1','template':'temp1','wait':30}, {'id': 't-1', 'ip': '11','template':'temp2','wait':600}]"
 
 jobs:
+
   job1:
+    runs-on: ubuntu-latest    
+    strategy:
+     matrix:
+      host: ${{fromJSON(needs.job1.outputs.vapps)}}
+    steps:
+      - name: Set color
+        id: set-color-var
+        run:  echo "::set-output name=${{ matrix.host.template }}::completed"
+         
+         
+         
+    outputs:
+      vapps: ${{steps.set-color-var.outputs.vapps}} 
+      product: ${{ steps.set-product.outputs.product }}
+                
+  get-color:
     runs-on: ubuntu-latest
+    needs: job1
+    strategy:
+     matrix:
+      test: ${{fromJSON(needs.job1.outputs.vapps)}}
 
     steps:
-      - name: Run Step 1
-        run: |
-          # Perform Step 1 actions here
-
-      - name: Upload synchronization artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: synchronization-artifact
-          path: path/to/synchronization-file.txt
-
-  job2:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Wait for synchronization artifact
-        id: wait_for_artifact
-        run: |
-          while true; do
-            artifact_id=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-              "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" \
-              | jq -r '.artifacts[] | select(.name == "synchronization-artifact") | .id')
-            if [ -n "$artifact_id" ]; then
-              break
-            fi
-            sleep 1
-          done
-
-      - name: Download synchronization artifact
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const artifactID = "${{ steps.wait_for_artifact.outputs.artifact_id }}";
-            const response = await github.actions.downloadArtifact({
-              artifact_id: artifactID,
-              repository: context.payload.repository.full_name,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              path: '.'
-            });
-            console.log(response);
-
-      - name: Run Step 2
-        run: |
-          # Perform Step 2 actions here
+      - name: wait for ${{needs.job1.matrix.host.template}}
+        run: sleep 0
+        
