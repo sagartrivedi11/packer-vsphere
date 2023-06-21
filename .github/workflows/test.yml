@@ -15,6 +15,7 @@ jobs:
 
     steps:
       - name: Set Run ID as Artifact
+        id: set_run_id
         run: echo "::set-output name=artifact_path::1"
       
     outputs:
