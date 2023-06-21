@@ -13,8 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: wait
-        run: sleep 30
       - name: Run Step 1
         run: |
           # Perform Step 1 actions here
@@ -29,26 +27,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Wait for synchronization artifact
         id: wait_for_artifact
-    
         run: |
           while true; do
-            artifact=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-              "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" \
+            artifact_id=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" \
               | jq -r '.artifacts[] | select(.name == "synchronization-artifact") | .id')
-            if [ -n "$artifact" ]; then
+            if [ -n "$artifact_id" ]; then
               break
             fi
             sleep 1
           done
 
       - name: Download synchronization artifact
-        uses: actions/download-artifact@v2
+        uses: actions/github-script@v5
         with:
-          name: synchronization-artifact
-          path: path/to/synchronization-artifact
+          script: |
+            const artifactID = "${{ steps.wait_for_artifact.outputs.artifact_id }}";
+            const response = await github.actions.downloadArtifact({
+              artifact_id: artifactID,
+              repository: context.payload.repository.full_name,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              path: '.'
+            });
+            console.log(response);
 
       - name: Run Step 2
         run: |
