@@ -15,9 +15,7 @@ jobs:
 
     steps:
       - name: Set Run ID as Artifact
-        run: |
-          echo "${{ github.run_id }}" > run_id.txt
-          echo "::set-output name=artifact_path::run_id.txt"
+        run: echo "::set-output name=artifact_path::1"
       
     outputs:
           artifact_path: ${{ steps.set_run_id.outputs.artifact_path }}
@@ -28,13 +26,6 @@ jobs:
     needs: job1
 
     steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: run-id-artifact
-          path: artifacts
 
       - name: Read Run ID from Artifact
-        run: |
-          runId=$(cat artifacts/run_id.txt)
-          echo "The run ID is: $runId"
+        run: echo "The run  ${{needs.job1.outputs.artifact_path}}"
