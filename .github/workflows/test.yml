@@ -8,25 +8,22 @@ on:
   workflow_dispatch:
 env:
   data: "[{'id': 't-0', 'ip_address': '1','template':'temp1','wait':30}, {'id': 't-1', 'ip': '11','template':'temp2','wait':600}]"
-
+  prouct1: ""
 jobs:
+
   job1:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest    
 
     steps:
-      - name: Set Run ID as Artifact
-        id: set_run_id
-        run: echo "::set-output name=artifact_path::1"
-      
+      - name: Set color
+        id: set-color-var
+        run: |
+         echo "vapps=${{ env.data }}" >> "$GITHUB_OUTPUT"
+         echo "${{env.product1}} = test"
+         echo "${{env.product1}}"
+         
+         
+         
     outputs:
-          artifact_path: ${{ steps.set_run_id.outputs.artifact_path }}
-
-  job2:
-    runs-on: ubuntu-latest
-
-    needs: job1
-
-    steps:
-
-      - name: Read Run ID from Artifact
-        run: echo "The run  ${{needs.job1.outputs.artifact_path}}"
+      vapps: ${{steps.set-color-var.outputs.vapps}} 
+                
