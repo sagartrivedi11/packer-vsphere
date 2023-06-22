@@ -7,23 +7,15 @@ on:
     branches: [ "testing" ]
   workflow_dispatch:
 env:
-  data: "[{'id': 't-0', 'ip_address': '1','template':'temp1','wait':30}, {'id': 't-1', 'ip': '11','template':'temp2','wait':600}]"
-  prouct1: ""
-jobs:
+  MY_VARIABLE: initial_value
 
-  job1:
-    runs-on: ubuntu-latest    
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Set color
-        id: set-color-var
-        run: |
-         echo "vapps=${{ env.data }}" >> "$GITHUB_OUTPUT"
-         echo "$product1 = test" >> $GITHUB_ENV
-         echo "${{env.product1}}"
-         
-         
-         
-    outputs:
-      vapps: ${{steps.set-color-var.outputs.vapps}} 
-                
+      - name: Set Environment Variable
+        run: echo "MY_VARIABLE=new_value" >> $GITHUB_ENV
+
+      - name: Display Environment Variable
+        run: echo "The value of MY_VARIABLE is ${{ env.MY_VARIABLE }}"
