@@ -14,8 +14,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: wait
+        run: sleep 60
+     
       - name: Set Environment Variable
         run: echo "MY_VARIABLE=new_value" >> $GITHUB_ENV
 
       - name: Display Environment Variable
-        run: echo "The value of MY_VARIABLE is ${{ env.MY_VARIABLE }}"
+        run: echo "The value of MY_VARIABLE is ${{ env.MY_VARIABLE }}" 
+
+  job2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Wait for Desired Value
+        id: wait_for_value
+        run: |
+          while [[ "${{ env.MY_VARIABLE }}" != "new_value" ]]; do
+            echo "Waiting for desired value..."
+            sleep 2
+          done
+          echo "Desired value found!"
