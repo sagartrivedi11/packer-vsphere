@@ -10,35 +10,38 @@ env:
   MY_VARIABLE: initial_value
 
 jobs:
-  my_job:
+  update_variable:
     runs-on: ubuntu-latest
 
     steps:
-      - name: wait
-        run: sleep 60
-     
-      - name: Set Environment Variable
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set initial value
+        run: echo "MY_VARIABLE=initial_value" >> $GITHUB_ENV
+
+      - name: Update variable
         run: echo "MY_VARIABLE=new_value" >> $GITHUB_ENV
 
-      - name: Display Environment Variable
-        run: echo "The value of MY_VARIABLE is ${{ env.MY_VARIABLE }}" 
+      - name: Archive updated value
+        uses: actions/upload-artifact@v2
+        with:
+          name: updated-value
+          path: $GITHUB_ENV
 
-  job2:
+  print_value:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Wait for Desired Value
-        id: wait_for_value
+      - name: Wait for artifact
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const artifact = await github.actions.waitForArtifact('updated-value');
+            const download = await artifact.download();
+            await download.saveDirectory('.');
+
+      - name: Print updated value
         run: |
-         while true; do
-            workflow_run=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-              "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}")
-            desired_value=$(echo "$workflow_run" | jq -r '.workflow_run.event.data.MY_VARIABLE')
-            if [[ "$desired_value" == "desired_value" ]]; then
-              echo "::set-output name=desired_value_found::true"
-              break
-            fi
-            echo "Waiting for desired value..."
-            sleep 5
-          done
-          echo "value found"
+          value=$(cat updated-value)
+          echo "Updated value: $value"
