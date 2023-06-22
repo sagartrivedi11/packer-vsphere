@@ -19,7 +19,7 @@ jobs:
         id: set-color-var
         run: |
          echo "vapps=${{ env.data }}" >> "$GITHUB_OUTPUT"
-         echo "${{env.product1}} = test"
+         echo "$product1 = test" >> $GITHUB_ENV
          echo "${{env.product1}}"
          
          
