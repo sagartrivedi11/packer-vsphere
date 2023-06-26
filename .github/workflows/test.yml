@@ -19,17 +19,16 @@ jobs:
       - name: wait
         run: sleep 60
       - name: Update Product1 Variable
-        run: echo "product1=done" >> $GITHUB_ENV
+        run: echo "::set-output name=product1::done"
 
   job2:
-    needs: job1
     runs-on: ubuntu-latest
 
     steps:
       - name: Check Product1 Status
         run: |
-          while [[ "${{ env.product1 }}" != "done" ]]; do
-            echo "Product1 status: ${{ env.product1 }}"
+          while [[ "${{ needs.job1.outputs.product1 }}" != "done" ]]; do
+            echo "Product1 status: ${{ needs.job1.outputs.product1 }}"
             sleep 5
           done
           echo "Product1 is done!"
