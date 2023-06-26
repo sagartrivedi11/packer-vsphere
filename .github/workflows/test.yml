@@ -13,7 +13,8 @@ env:
 jobs:
   job1:
     runs-on: ubuntu-latest
-
+    outputs:
+      product1: ${{ steps.update_product1.outputs.product1 }}
     steps:
      
       - name: wait
