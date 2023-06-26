@@ -7,41 +7,29 @@ on:
     branches: [ "testing" ]
   workflow_dispatch:
 env:
-  MY_VARIABLE: initial_value
+  product1: initial_value
+  product2: initial_value
 
 jobs:
-  update_variable:
+  job1:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+     
+      - name: wait
+        run: sleep 60
+      - name: Update Product1 Variable
+        run: echo "product1=done" >> $GITHUB_ENV
 
-      - name: Set initial value
-        run: echo "MY_VARIABLE=initial_value" >> $GITHUB_ENV
-
-      - name: Update variable
-        run: echo "MY_VARIABLE=new_value" >> $GITHUB_ENV
-
-      - name: Archive updated value
-        uses: actions/upload-artifact@v2
-        with:
-          name: updated-value
-          path: $GITHUB_ENV
-
-  print_value:
+  job2:
+    needs: job1
     runs-on: ubuntu-latest
 
     steps:
-      - name: Wait for artifact
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const artifact = await github.actions.waitForArtifact('updated-value');
-            const download = await artifact.download();
-            await download.saveDirectory('.');
-
-      - name: Print updated value
+      - name: Check Product1 Status
         run: |
-          value=$(cat updated-value)
-          echo "Updated value: $value"
+          while [[ "${{ env.product1 }}" != "done" ]]; do
+            echo "Product1 status: ${{ env.product1 }}"
+            sleep 5
+          done
+          echo "Product1 is done!"
