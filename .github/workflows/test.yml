@@ -1,36 +1,24 @@
 name: Get-IP
 
 on:
-  push:
-    branches: [ "testing" ]
-  pull_request:
-    branches: [ "testing" ]
   workflow_dispatch:
-env:
-  product1: initial_value
-  product2: initial_value
-
+   inputs:
+    testSet:
+      description: 'Testset JSON file.Separated by comma (,)'
+      default: ""
+      required: true
+      type: string       
 jobs:
   job1:
-    runs-on: ubuntu-latest
-    outputs:
-      product1: ${{ steps.update_product1.outputs.product1 }}
+    runs-on: [windows-latest]
+    strategy:
+      matrix:
+       tests: ['${{ github.event.inputs.testSet }}']
     steps:
-     
-      - name: wait
-        run: sleep 60
+      - uses: actions/checkout@v3      
 
-      - name: Update Product1 Variable
-        run: echo "product1=done" >> $GITHUB_ENV
+      - name: Create a matrix for test execution
+        run: echo "running test for ${{matrix.test}}
+        
+  
 
-  job2:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check Product1 Status
-        run: |
-          while [[ "${{ env.product1 }}" != "done" ]]; do
-            echo "Product1 status: ${{ env.product1 }}"
-            sleep 5
-          done
-          echo "Product1 is done!"
