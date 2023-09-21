@@ -13,7 +13,7 @@ jobs:
     runs-on: [windows-latest]
     strategy:
       matrix:
-       tests: ["${{ github.event.inputs.testSet }}"]
+       tests: ${{ split(github.event.inputs.testSet, ',') }}
     steps:
       - uses: actions/checkout@v3      
 
