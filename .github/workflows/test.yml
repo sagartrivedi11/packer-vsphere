@@ -18,4 +18,4 @@ jobs:
       - uses: actions/checkout@v3      
 
       - name: Create a matrix for test execution
-        run: echo "running test for ${{matrix.test}}"
+        run: echo "running test for ${{matrix.tests}}"
