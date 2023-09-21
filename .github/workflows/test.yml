@@ -13,7 +13,7 @@ jobs:
     runs-on: [windows-latest]
     strategy:
       matrix:
-       tests: ${{ split(github.event.inputs.testSet, ',') }}
+       tests: ${{ fromJson('[' ~ github.event.inputs.testSet | split(",") | map("'\(.)'") | join(",") ~ ']') }}
     steps:
       - uses: actions/checkout@v3      
 
