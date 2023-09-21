@@ -1,4 +1,4 @@
-name: Get-IP
+name: Test Get-IP
 
 on:
   workflow_dispatch:
