@@ -11,11 +11,28 @@ on:
 jobs:
   job1:
     runs-on: [windows-latest]
-    strategy:
-      matrix:
-       tests: ${{ fromJson('[' ~ github.event.inputs.testSet | split(",") | map("'\(.)'") | join(",") ~ ']') }}
+    outputs:
+      matrix: ${{ steps.test-matrix.outputs.matrix }}
+    
+    
     steps:
       - uses: actions/checkout@v3      
 
       - name: Create a matrix for test execution
-        run: echo "running test for ${{matrix.tests}}"
+        id: test-matrix
+        run: |
+          $inputString = ${{ github.event.inputs.testSet }}
+          $fileNames = $inputString -split ','
+          $objects = $fileNames | ForEach-Object { [PSCustomObject]@{ 'test' = $_ } }
+          $resultJson = $objects | ConvertTo-Json -Depth 100 -Compress  | ForEach-Object { $_ -replace '"', "'" }
+          echo "matrix=$resultJson" >> "$GITHUB_OUTPUT"
+
+
+  job2:
+    runs-on: [windows-latest]
+    needs: [job1]
+    steps:
+      - uses: actions/checkout@v3      
+
+      - name: Create a matrix for test execution
+        run: echo "${{ needs.job1.outputs.matrix }}"
