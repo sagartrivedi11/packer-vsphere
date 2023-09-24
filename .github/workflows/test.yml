@@ -26,7 +26,7 @@ jobs:
           $objects = $fileNames | ForEach-Object { [PSCustomObject]@{ 'test' = $_ } }
           $resultJson = $objects | ConvertTo-Json -Depth 100 -Compress  | ForEach-Object { $_ -replace '"', "'" }
           Write-Host $resultJson
-          echo "MATRIX::$resultJson" >> $GITHUB_ENV
+          echo "matrix=$resultJson" >> $GITHUB_OUTPUT
 
 
 
@@ -38,7 +38,5 @@ jobs:
 
       - name: Create a matrix for test execution
         run: |
-          echo "${{ env.MATRIX }}"
-          matrixData="${{ env.MATRIX }}"
-          echo "$matrixData"
+          echo "${{ needs.job1.outputs.matrix }}"
         
