@@ -25,7 +25,9 @@ jobs:
           $fileNames = $inputString -split ','
           $objects = $fileNames | ForEach-Object { [PSCustomObject]@{ 'test' = $_ } }
           $resultJson = $objects | ConvertTo-Json -Depth 100 -Compress  | ForEach-Object { $_ -replace '"', "'" }
-          echo "matrix=$resultJson" >> "$GITHUB_OUTPUT"
+          Write-Host $resultJson
+          echo "MATRIX::$resultJson" >> $GITHUB_ENV
+
 
 
   job2:
@@ -35,4 +37,4 @@ jobs:
       - uses: actions/checkout@v3      
 
       - name: Create a matrix for test execution
-        run: echo "${{ needs.job1.outputs.matrix }}"
+        run: echo "${{ env.MATRIX }}"
