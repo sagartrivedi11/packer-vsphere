@@ -39,5 +39,5 @@ jobs:
       - name: Create a matrix for test execution
         run: |
           echo "${{ env.matrix}}"
-          echo "${{ needs.job1.outputs.matrix }}
+          echo "${{ needs.job1.outputs.matrix }}"
         
