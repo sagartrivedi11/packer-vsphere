@@ -24,9 +24,8 @@ jobs:
           $inputString = "${{ github.event.inputs.testSet }}"
           $fileNames = $inputString -split ','
           $objects = $fileNames | ForEach-Object { [PSCustomObject]@{ 'test' = $_ } }
-          $resultJson = $objects | ConvertTo-Json -Depth 100 -Compress  | ForEach-Object { $_ -replace '"', "'" }
-          Write-Host $resultJson
-          echo "matrix=$resultJson" >> $GITHUB_ENV
+          $resultJson = $objects | ConvertTo-Json -Depth 100 -Compress  | ForEach-Object { $_ -replace '"', "'" } 
+          echo "::set-output name=matrix::$resultJson"
 
 
 
@@ -38,6 +37,5 @@ jobs:
 
       - name: Create a matrix for test execution
         run: |
-          echo "${{ env.matrix}}"
           echo "${{ needs.job1.outputs.matrix }}"
         
