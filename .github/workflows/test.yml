@@ -9,10 +9,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3      
 
-      - name: Create a matrix for test execution
-        id: test-matrix
+      - name: step1
         run: |
-          echo "Hello"
-          exit 2
-
+          echo "Hello"          
+          
+      - name: step2
+        run: |
+          echo "World"
         
+      - name: step2
+        run: |
+          echo "!!"
+          exit 2
+          continue-on-error: true  
