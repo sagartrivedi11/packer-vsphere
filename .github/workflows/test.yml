@@ -4,7 +4,7 @@ on:
   workflow_dispatch:   
 jobs:
   job1:
-    continue-on-error: true
+    
     runs-on: [windows-latest]  
     
     steps:
@@ -18,13 +18,11 @@ jobs:
         run: |
           echo "World"
         
-      - name: step2
-        run: |
-          echo "!!"
-          exit 2
+
         
   job2:
     needs: [job1]
+    continue-on-error: true
     runs-on: [windows-latest]  
     
     steps:
@@ -36,6 +34,6 @@ jobs:
           
       - name: step2
         run: |
-          echo "World"      
+          exit 2 
 
         
