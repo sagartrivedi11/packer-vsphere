@@ -4,6 +4,7 @@ on:
   workflow_dispatch:   
 jobs:
   job1:
+    continue-on-error: true
     runs-on: [windows-latest]  
     
     steps:
@@ -21,4 +22,26 @@ jobs:
         run: |
           echo "!!"
           exit 2
-        continue-on-error: true  
+        
+  job2:
+    needs: [job1]
+    runs-on: [windows-latest]  
+    
+    steps:
+      - uses: actions/checkout@v3      
+
+      - name: step1
+        run: |
+          echo "Hello"          
+          
+      - name: step2
+        run: |
+          echo "World"
+        
+      - name: step2
+        run: |
+          echo "!!"
+          exit 2
+        #continue-on-error: true          
+
+        
