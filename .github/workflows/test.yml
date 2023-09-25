@@ -36,12 +36,6 @@ jobs:
           
       - name: step2
         run: |
-          echo "World"
-        
-      - name: step2
-        run: |
-          echo "!!"
-          exit 2
-        #continue-on-error: true          
+          echo "World"      
 
         
