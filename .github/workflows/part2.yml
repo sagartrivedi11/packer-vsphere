@@ -1,7 +1,7 @@
 name: Part2
 run-name: Part2 [${{ github.event.inputs.location }}]
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       location:
         description: 'location '
