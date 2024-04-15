@@ -21,6 +21,6 @@ jobs:
       - name: Run a one-line script
         run: echo "Variable value is ${{ env.variable1 }}"
       - name: Run Part2 workflow
-        uses: ./part2.yml
+        uses: ./github/workflows/part2.yml
         with:
           location: ${{ github.event.inputs.location }}
