@@ -20,7 +20,9 @@ jobs:
       - name: step1
         run: echo "First Job"    
   build:
-      uses: sagartrivedi11/packer-vsphere/.github/workflows/part2.yml@main
-      needs: create
-      with:
-        location: ${{ github.event.inputs.location }}
+    runs-on: windows-latest
+    steps:
+      - name: Reusable Workflow Call
+        uses: sagartrivedi11/packer-vsphere/.github/workflows/part2.yml@main
+        with:
+          location: ${{ github.event.inputs.location }}
