@@ -1,6 +1,13 @@
 name: Part1
 on:
   workflow_dispatch:
+   inputs:
+    location:
+      description: 'Location'
+      default: 'default_location'
+      required: false
+      type: string
+  
 
 env:
  variable1: 'test'
