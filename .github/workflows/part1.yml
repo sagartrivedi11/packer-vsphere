@@ -21,5 +21,6 @@ jobs:
         run: echo "First Job"    
   build:
       uses: sagartrivedi11/packer-vsphere/.github/workflows/part2.yml@main
+      needs: create
       with:
         location: ${{ github.event.inputs.location }}
