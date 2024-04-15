@@ -1,15 +1,27 @@
 name: Part2
-inputs:
-  location:
-    description: 'location '
-    default: ""
-    required: true
-    type: string      
+run-name: Part2 [${{ github.event.inputs.location }}]
+on:
+  workflow_dispatch:
+    inputs:
+      location:
+        description: 'location '
+        default: ""
+        required: true
+        type: string      
   
-runs:
- using: "composite"
- steps:  
-    - name: step1
-      run: echo "Hello"                           
-          
-        
+  
+jobs:
+  job1:
+    
+    runs-on: [windows-latest]      
+    steps:  
+      - name: step1
+        run: |
+          echo "Hello"                         
+  job2:
+    needs: [job1]
+    runs-on: [windows-latest]      
+    steps:
+      - name: step1
+        run: |
+          echo "World" 
