@@ -1,32 +1,26 @@
-name: Part2
-run-name: Part2 [${{ inputs.location }}]
+name: Part1
 on:
   workflow_dispatch:
-    inputs:
-      location:
-        description: 'location '
-        default: ""
-        required: true
-        type: string      
-  workflow_call:
-    inputs:
-      location:
-        description: 'location '
-        default: ""
-        required: true
-        type: string       
+   inputs:
+    location:
+      description: 'Location'
+      default: 'default_location'
+      required: false
+      type: string
   
+
+env:
+ variable1: 'test'
+
+
 jobs:
-  test-discover:
-    
+  create:
     runs-on: [windows-latest]      
     steps:  
       - name: step1
-        run: echo "${{ inputs.location }}"      
-        
-  test-execution:
-    needs: [test-discover]
-    runs-on: [windows-latest]      
-    steps:
-      - name: step1
-        run: echo "${{ inputs.location }}" 
+        run: echo "First Job"    
+  build:
+      uses: sagartrivedi11/packer-vsphere/.github/workflows/part2.yml@main
+      needs: create
+      with:
+        location: ${{ github.event.inputs.location }}
