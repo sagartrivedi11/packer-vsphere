@@ -8,7 +8,13 @@ on:
         default: ""
         required: true
         type: string      
-  
+  workflow_call:
+    inputs:
+      location:
+        description: 'location '
+        default: ""
+        required: true
+        type: string       
   
 jobs:
   job1:
