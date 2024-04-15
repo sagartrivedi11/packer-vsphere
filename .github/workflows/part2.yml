@@ -1,7 +1,15 @@
-name: Test Get-IP
+name: Part2
 
 on:
-  workflow_dispatch:   
+  workflow_dispatch:
+    inputs:
+      location:
+        description: 'location '
+        default: ""
+        required: true
+        type: string      
+  
+  
 jobs:
   job1:
     
