@@ -17,7 +17,7 @@ jobs:
       - name: Step1   
         id: clone
         timeout-minutes: 1
-        run: sleep 10
+        run: sleep 65
 
       - name: Step2
         if: ${{ failure() }}
