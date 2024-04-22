@@ -31,7 +31,10 @@ jobs:
 
   job-3:
     runs-on: [windows-latest]
-    needs: ${{ github.event_name == 'workflow_dispatch' && failure() && needs.retry-job-2 != null && needs.retry-job-2.result == 'failure' ? 'retry-job-2' : 'job-2' }}
+    needs: ${{ if(github.event_name == 'workflow_dispatch' && failure() && needs.retry-job-2 != null && needs.retry-job-2.result == 'failure') }} 
+              ${{ 'retry-job-2' }}
+            ${{ else }} 
+              ${{ 'job-2' }}
     steps:     
       - name: Start Test         
         run: |
