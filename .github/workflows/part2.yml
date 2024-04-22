@@ -6,12 +6,12 @@ on:
 jobs:
   clone:
    runs-on: [windows-latest]
-   timeout-minutes: 2
+   timeout-minutes: 1
    steps:
         
      - name: Print cloned VM information         
        run: |
-        sleep 3
+        sleep 65
      
   test:
    runs-on: [windows-latest]
