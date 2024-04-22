@@ -1,23 +1,36 @@
-name: Part2
-run-name: Part2 
+name: Workflow
 on:
   workflow_dispatch:
 
 jobs:
-  clone:
-   runs-on: [windows-latest]
-   timeout-minutes: 1
-   steps:
-        
-     - name: Print cloned VM information         
-       run: |
-        sleep 65
-     
-  test:
-   runs-on: [windows-latest]
-   needs: [clone]
-        
-   steps:     
-     - name: Start Test         
-       run: |
-         Write-Host "Test"
+  job-1:
+    runs-on: [windows-latest]
+    steps:     
+      - name: Start Test         
+        run: |
+          Write-Host "Test"
+
+  job-2:
+    runs-on: [windows-latest]
+    needs: [job-1]
+    timeout-minutes: 1
+    steps:
+      - name: Print cloned VM information         
+        run: |
+          sleep 65
+
+  job-3:
+    runs-on: [windows-latest]
+    needs: [job-2]
+    steps:     
+      - name: Start Test         
+        run: |
+          Write-Host "Test"
+
+  retry-job-2:
+    runs-on: [windows-latest]
+    needs: [job-2]
+    if: ${{ failure() }}
+    steps:
+      - name: Retry job-2
+        run: echo "Retrying job-2"
