@@ -4,15 +4,15 @@ on:
 
 jobs:
   job-1:
-    runs-on: [windows-latest]
+    runs-on: windows-latest
     steps:     
       - name: Start Test         
         run: |
           Write-Host "Test"
 
   job-2:
-    runs-on: [windows-latest]
-    needs: [job-1]
+    runs-on: windows-latest
+    needs: job-1
     steps:
       - name: Step1   
         id: clone
@@ -20,5 +20,16 @@ jobs:
         run: sleep 65
 
       - name: Step2
-        if: ${{ failure() }}
-        run: Write-Host "Retry"
+        id: step2
+        run: Write-Host "Hello"
+
+      - name: Step3
+        run: |
+          if (${{
+            needs.job-1.outputs.clone.result == 'failure' || 
+            needs.job-1.outputs.step2.result == 'failure' 
+          }}) {
+            Write-Host "Step1 or Step2 has failed"
+          } else {
+            Write-Host "Neither Step1 nor Step2 has failed"
+          }
