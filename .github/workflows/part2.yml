@@ -24,6 +24,7 @@ jobs:
         run: Write-Host "Hello"
 
       - name: Step3
+        if: ${{ always() }}
         run: |
           if (${{
             needs.job-1.outputs.clone.result == 'failure' || 
