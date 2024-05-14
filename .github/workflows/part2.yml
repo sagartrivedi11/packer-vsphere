@@ -1,36 +1,37 @@
 name: Workflow
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["Workflow"]
+    types:
+      - completed
 
 jobs:
+  check-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if previous run failed
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.TOKEN }}
+          script: |
+            const previousRunStatus = await github.actions.getWorkflowRun({ owner: context.repo.owner, repo: context.repo.repo, run_id: context.payload.workflow_run.id });
+            if (previousRunStatus.data.conclusion !== 'success') {
+              console.log('Previous run failed. Restarting the workflow...');
+              process.exit(1);
+            }
+
   job-1:
     runs-on: windows-latest
+    needs: check-status
     steps:     
-      - name: Start Test         
+      - name: Start Machine
         run: |
           Write-Host "Test"
 
   job-2:
     runs-on: windows-latest
-    needs: job-1
-    steps:
-      - name: Step1   
-        id: clone
-        timeout-minutes: 1
-        run: sleep 65
-
-      - name: Step2
-        id: step2
-        run: Write-Host "Hello"
-
-      - name: Step3
-        if: ${{ always() }}
+    needs: [job-1]
+    steps:     
+      - name: Start Test         
         run: |
-          if (${{
-            needs.job-1.outputs.clone.result == 'failure' || 
-            needs.job-1.outputs.step2.result == 'failure' 
-          }}) {
-            Write-Host "Step1 or Step2 has failed"
-          } else {
-            Write-Host "Neither Step1 nor Step2 has failed"
-          }
+          Write-Host "Test"
