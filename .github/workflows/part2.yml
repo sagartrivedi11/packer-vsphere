@@ -34,6 +34,6 @@ jobs:
          "ref" = "main"
          inputs = @{
          runid = "${{ github.run_id }}"
-         }
+         } }
          Invoke-RestMethod -Method Post -Headers $headers -Body ($body | ConvertTo-Json) -Uri "https://api.github.com/repos/sagartrivedi11/packer-vsphere/actions/workflows/part1.yml/dispatches"
          }
