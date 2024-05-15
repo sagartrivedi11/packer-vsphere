@@ -29,7 +29,10 @@ jobs:
          if(('${{ needs.job-2.result}}' -eq 'failure' || '${{ needs.job-1.result}}' -eq  == 'failure') && ${{github.run_attempt}} -lt 3  ) {
          $headers = @{
          "Authorization" = "token ${{ secrets.TOKEN }}"
-         "Accept" = "application/vnd.github.everest-preview+json"
+         "Accept" = "application/application/vnd.github.v3+json"
          }
-         Invoke-RestMethod -Method Post -Headers $headers -Uri "https://api.github.com/repos/sagartrivedi11/packer-vsphere/actions/workflows/part2.yml/dispatches"
+         $body = @{
+         "ref" = "main"
+         }
+         Invoke-RestMethod -Method Post -Headers $headers -Body ($body | ConvertTo-Json) -Uri "https://api.github.com/repos/sagartrivedi11/packer-vsphere/actions/workflows/part2.yml/dispatches"
          }
