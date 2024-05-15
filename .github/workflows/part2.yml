@@ -24,11 +24,12 @@ jobs:
     needs: [job-2,job-1]
     if: ${{always()}}
     steps:     
-      - name: Conclude
+      - name: auto-trigger
         run: |
-          if('${{ needs.job-2.result}}' -eq 'failure' || ${{ needs.job-1.result}} -eq  == 'failure' ) {
-          Write-Host "One or more job failed"
-          }
-          Write-Host "Attempt  ::: ${{github.run_attempt}}"
-          
-          
+         if(('${{ needs.job-2.result}}' -eq 'failure' || ${{ needs.job-1.result}} -eq  == 'failure') && github.run_attempt -lt 3  ) {
+         $headers = @{
+         "Authorization" = "token ${{ secrets.TOKEN }}"
+         "Accept" = "application/vnd.github.everest-preview+json"
+         }
+         Invoke-RestMethod -Method Post -Headers $headers -Uri "https://api.github.com/repos/sagartrivedi11/packer-vsphere/actions/workflows/part2.yml/dispatches"
+         }
