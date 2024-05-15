@@ -1,4 +1,4 @@
-name: Part1
+name: Auto Trigger
 on:
   workflow_dispatch:
    inputs:
