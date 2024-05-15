@@ -21,12 +21,14 @@ jobs:
           
   finally:
     runs-on: windows-latest
-    needs: [job-2]
+    needs: [job-2,job-1]
     if: ${{always()}}
     steps:     
       - name: Conclude
         run: |
-          Write-Host "${{ needs.job-2.result }}"
+          if(${{ needs.job-2.result == 'failure'}} || ${{ needs.job-1.result == 'failure'}} ) {
+          Write-Host "One or more job failed"
+          }
           Write-Host "Attempt  ::: ${{github.run_attempt}}"
           
           
