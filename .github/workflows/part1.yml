@@ -2,12 +2,9 @@ name: Part1
 on:
   workflow_dispatch:
    inputs:
-    location:
-      description: 'Location'
-      default: 'default_location'
-      required: false
-      type: string
-  
+    run-id:
+      description: 'run id'
+      required: false  
 
 env:
  variable1: 'test'
@@ -17,10 +14,14 @@ jobs:
   create:
     runs-on: [windows-latest]      
     steps:  
-      - name: step1
-        run: echo "First Job"    
-  build:
-      uses: sagartrivedi11/packer-vsphere/.github/workflows/part2.yml@main
-      needs: create
-      with:
-        location: ${{ github.event.inputs.location }}
+      - name: Start trigger
+        run: |
+         $headers = @{
+         "Authorization" = "token ${{ secrets.TOKEN }}"
+         "Accept" = "application/vnd.github+json"
+         }
+         $body = @{
+         "ref" = "main"
+         }
+         Invoke-RestMethod -Method Post -Headers $headers -Body ($body | ConvertTo-Json) -Uri "https://api.github.com/repos/sagartrivedi11/packer-vsphere/actions/runs/${{ github.event.inputs.re-id }}/rerun"
+        
