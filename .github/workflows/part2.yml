@@ -26,7 +26,7 @@ jobs:
     steps:     
       - name: auto-trigger
         run: |
-         if(('${{ needs.job-2.result}}' -eq 'failure' || ${{ needs.job-1.result}} -eq  == 'failure') && ${{github.run_attempt}} -lt 3  ) {
+         if(('${{ needs.job-2.result}}' -eq 'failure' || '${{ needs.job-1.result}}' -eq  == 'failure') && ${{github.run_attempt}} -lt 3  ) {
          $headers = @{
          "Authorization" = "token ${{ secrets.TOKEN }}"
          "Accept" = "application/vnd.github.everest-preview+json"
