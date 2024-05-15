@@ -17,3 +17,12 @@ jobs:
       - name: Start trigger
         run: |
          sleep 20
+         $headers = @{
+         "Authorization" = "token ${{ secrets.TOKEN }}"
+         "Accept" = "application/vnd.github+json"
+         }
+         $body = @{
+         "ref" = "main"
+         }
+         Invoke-RestMethod -Method Post -Headers $headers -Body ($body | ConvertTo-Json) -Uri "https://api.github.com/repos/sagartrivedi11/packer-vsphere/actions/runs/${{ github.event.inputs.runid }}/rerun"
+        
