@@ -25,7 +25,7 @@ jobs:
     steps:     
       - name: auto-trigger
         run: |
-         if(('${{ needs.job-2.result}}' -eq 'failure' || '${{ needs.job-1.result}}' -eq 'failure')) {
+         if('${{ needs.job-2.result}}' -eq 'failure' || '${{ needs.job-1.result}}' -eq 'failure') {
            if( ${{github.run_attempt}} -lt 2  ){
              $headers = @{
                "Authorization" = "token ${{ secrets.TOKEN }}"
