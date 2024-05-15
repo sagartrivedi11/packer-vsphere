@@ -6,6 +6,6 @@ jobs:
   job-1:
     runs-on: windows-latest
     steps:     
-      - name: Attempt ${{GITHUB_RUN_ATTEMPT}}
+      - name: Attempt ${{env.GITHUB_RUN_ATTEMPT}}
         run: |
           Write-Host "Test"
