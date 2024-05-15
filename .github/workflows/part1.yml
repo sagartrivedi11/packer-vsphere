@@ -2,7 +2,7 @@ name: Auto Trigger
 on:
   workflow_dispatch:
    inputs:
-    run-id:
+    runid:
       description: 'run id'
       required: false  
 
