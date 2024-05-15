@@ -16,6 +16,7 @@ jobs:
     steps:  
       - name: Start trigger
         run: |
+         sleep 20
          $headers = @{
          "Authorization" = "token ${{ secrets.TOKEN }}"
          "Accept" = "application/vnd.github+json"
