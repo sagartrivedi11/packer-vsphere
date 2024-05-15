@@ -17,7 +17,6 @@ jobs:
       - name: Step1 
         run: |
           Write-Host "This is step2"
-          exit 1
           
   finally:
     runs-on: windows-latest
