@@ -25,15 +25,18 @@ jobs:
     steps:     
       - name: auto-trigger
         run: |
-         if(('${{ needs.job-2.result}}' -eq 'failure' || '${{ needs.job-1.result}}' -eq 'failure') && ${{github.run_attempt}} -lt 2  ) {
-         $headers = @{
-         "Authorization" = "token ${{ secrets.TOKEN }}"
-         "Accept" = "application/vnd.github+json"
-         }
-         $body = @{
-         "ref" = "main"
-         inputs = @{
-         runid = "${{ github.run_id }}"
-         } }
-         Invoke-RestMethod -Method Post -Headers $headers -Body ($body | ConvertTo-Json) -Uri "https://api.github.com/repos/sagartrivedi11/packer-vsphere/actions/workflows/part1.yml/dispatches"
+         if(('${{ needs.job-2.result}}' -eq 'failure' || '${{ needs.job-1.result}}' -eq 'failure')) {
+           if( ${{github.run_attempt}} -lt 2  ){
+             $headers = @{
+               "Authorization" = "token ${{ secrets.TOKEN }}"
+               "Accept" = "application/vnd.github+json"
+             }
+             $body = @{
+               "ref" = "main"
+               inputs = @{
+                 runid = "${{ github.run_id }}"
+               } 
+             }
+             Invoke-RestMethod -Method Post -Headers $headers -Body ($body | ConvertTo-Json) -Uri "https://api.github.com/repos/sagartrivedi11/packer-vsphere/actions/workflows/part1.yml/dispatches"
+           }
          }
