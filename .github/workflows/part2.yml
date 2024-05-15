@@ -29,7 +29,7 @@ jobs:
          if(('${{ needs.job-2.result}}' -eq 'failure' || '${{ needs.job-1.result}}' -eq 'failure') && ${{github.run_attempt}} -lt 3  ) {
          $headers = @{
          "Authorization" = "token ${{ secrets.TOKEN }}"
-         "Accept" = "application/application/vnd.github.v3+json"
+         "Accept" = "application/vnd.github+json"
          }
          $body = @{
          "ref" = "main"
