@@ -6,6 +6,27 @@ jobs:
   job-1:
     runs-on: windows-latest
     steps:     
-      - name: Attempt 
+      - name: Step1 
         run: |
+          Write-Host "This is step1"
+
+  job-2:
+    runs-on: windows-latest
+    needs: [job-1]
+    steps:     
+      - name: Step1 
+        run: |
+          Write-Host "This is step2"
+          exit 1
+          
+  finally:
+    runs-on: windows-latest
+    needs: [job-2]
+    if: ${{always()}}
+    steps:     
+      - name: Conclude
+        run: |
+          Write-Host "${{ needs.job-2.result }}"
           Write-Host "Attempt  ::: ${{github.run_attempt}}"
+          
+          
