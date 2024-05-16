@@ -34,6 +34,7 @@ jobs:
         run: |
          if('${{ needs.job-2.result}}' -eq 'failure' || '${{ needs.job-1.result}}' -eq 'failure') {
            if( ${{github.run_attempt}} -lt 2  ){
+             Write-Host "run${{github.run_attempt}}"
              $headers = @{
                "Authorization" = "token ${{ secrets.TOKEN }}"
                "Accept" = "application/vnd.github+json"
