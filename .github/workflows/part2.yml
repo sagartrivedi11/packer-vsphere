@@ -28,7 +28,7 @@ jobs:
         eixt 1
   finally:
     runs-on: windows-latest
-    needs: [job-2,job-1]
+    needs: [job-2,job-1,job-3]
     if: ${{always()}}
     steps:     
       - name: auto-trigger
