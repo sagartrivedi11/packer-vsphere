@@ -1,11 +1,14 @@
-name: Auto Trigger
+name: Auto Trigger ${{ github.event.inputs.runnumber }}
 on:
   workflow_dispatch:
    inputs:
     runid:
       description: 'run id'
       required: false  
-
+    runnumber:
+      description: 'run number'
+      required: false  
+      
 env:
  variable1: 'test'
 
