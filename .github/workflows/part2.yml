@@ -17,6 +17,7 @@ jobs:
       - name: Step1 
         run: |
           Write-Host "This is step2"
+          exit 1
   job-3:
    runs-on: windows-latest
    needs: [job-2]
@@ -24,7 +25,6 @@ jobs:
     - name: Step1 
       run: |
         Write-Host "This is step2"
-        eixt 1
   finally:
     runs-on: windows-latest
     needs: [job-2,job-1,job-3]
