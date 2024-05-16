@@ -1,4 +1,5 @@
-name: Auto Trigger ${{ github.event.inputs.runnumber }}
+name: Auto Trigger 
+run-name: Attempt 2 [${{ github.event.inputs.runnumber }}]
 on:
   workflow_dispatch:
    inputs:
