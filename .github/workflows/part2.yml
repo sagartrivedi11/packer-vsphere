@@ -22,7 +22,7 @@ jobs:
 
   job-3:
     runs-on: [windows-latest]
-    needs: [job-1]
+    needs: [job-2]
     steps:
       - name: Step1   
         id: clone
