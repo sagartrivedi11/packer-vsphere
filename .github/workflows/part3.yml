@@ -1,0 +1,20 @@
+name: Part4
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  job-1:
+    runs-on: [windows-latest]
+    steps:     
+      - name: Start Test         
+        run: |
+          Write-Host "Test"
+
+  job-2:
+    runs-on: [windows-latest]
+    needs: [job-1]
+    steps:
+      - name: Step1   
+        id: clone
+        run: sleep 10
