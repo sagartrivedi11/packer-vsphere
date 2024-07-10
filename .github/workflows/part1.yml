@@ -7,6 +7,7 @@ on:
       default: 'default_location'
       required: false
       type: string
+  workflow_call:    
   
 
 env:
