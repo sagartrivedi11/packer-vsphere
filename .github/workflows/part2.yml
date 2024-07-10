@@ -4,49 +4,21 @@ on:
 
 jobs:
   job-1:
-    runs-on: windows-latest
+    runs-on: [windows-latest]
     steps:     
-      - name: Step1 
+      - name: Start Test         
         run: |
-          Write-Host "This is step1"
+          Write-Host "Test"
 
   job-2:
-    runs-on: windows-latest
+    runs-on: [windows-latest]
     needs: [job-1]
-    steps:     
-      - name: Step1 
-        run: |
-          Write-Host "This is step2"
-          exit 1
-  job-3:
-   runs-on: windows-latest
-   needs: [job-2]
-   steps:     
-    - name: Step1 
-      run: |
-        Write-Host "This is step2"
-  finally:
-    runs-on: windows-latest
-    needs: [job-2,job-1,job-3]
-    if: ${{always()}}
-    steps:     
-      - name: auto-trigger
-        run: |
-         if('${{ needs.job-2.result}}' -eq 'failure' || '${{ needs.job-1.result}}' -eq 'failure') {
-           if( ${{github.run_attempt}} -lt 2  ){
-             Write-Host "run${{github.run_attempt}}"
-             $headers = @{
-               "Authorization" = "token ${{ secrets.TOKEN }}"
-               "Accept" = "application/vnd.github+json"
-             }
-             $body = @{
-               "ref" = "main"
-               inputs = @{
-                 runid = "${{ github.run_id }}"
-               } 
-             }
-             Invoke-RestMethod -Method Post -Headers $headers -Body ($body | ConvertTo-Json) -Uri "https://api.github.com/repos/sagartrivedi11/packer-vsphere/actions/workflows/part1.yml/dispatches"
-           }
-           else { Write-Host "Max attempt reached." } 
-         }
+    steps:
+      - name: Step1   
+        id: clone
+        timeout-minutes: 1
+        run: sleep 65
 
+      - name: Step2
+        if: ${{ failure() }}
+        run: Write-Host "Retry"
