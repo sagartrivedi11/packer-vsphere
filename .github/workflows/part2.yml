@@ -20,6 +20,11 @@ jobs:
         timeout-minutes: 1
         run: sleep 65
 
-      - name: Step2
-        if: ${{ failure() }}
-        run: Write-Host "Retry"
+  job-3:
+    runs-on: [windows-latest]
+    needs: [job-1]
+    steps:
+      - name: Step1   
+        id: clone
+        timeout-minutes: 1
+        run: sleep 65
