@@ -1,6 +1,6 @@
 name: Workflow
 on:
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   job-1:
