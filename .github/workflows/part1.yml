@@ -17,5 +17,3 @@ jobs:
   build:
       uses: sagartrivedi11/packer-vsphere/.github/workflows/part2.yml@main
       needs: create
-      with:
-        location: "India"
