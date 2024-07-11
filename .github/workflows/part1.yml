@@ -16,7 +16,4 @@ jobs:
         run: echo "First Job"    
   
   build:
-   runs-on: [windows-latest]
-   steps:
-     - name: Step1
-       uses: sagartrivedi11/rest/actions//part2@v1.0
+    uses: sagartrivedi11/packer-vsphere/.github/workflows/part2.yml@main
