@@ -4,21 +4,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  job-1:
+  Part2-Job1:
     runs-on: [windows-latest]
     steps:     
       - name: Start Test         
         run: |
           Write-Host "Test"
 
-  job-2:
+  Part2-Job12:
     runs-on: [windows-latest]
-    needs: [job-1]
+    needs: [Part2-Job1]
     steps:
       - name: Step1   
         id: clone
         timeout-minutes: 1
         run: sleep 65
 
-  job-3:
+  Part2-Job3:
     uses: sagartrivedi11/packer-vsphere/.github/workflows/part3.yml@main
