@@ -21,10 +21,4 @@ jobs:
         run: sleep 65
 
   job-3:
-    runs-on: [windows-latest]
-    needs: [job-2]
-    steps:
-      - name: Step1   
-        id: clone
-        timeout-minutes: 1
-        run: sleep 65
+    uses: sagartrivedi11/packer-vsphere/.github/workflows/part3.yml@main
