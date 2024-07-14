@@ -1,0 +1,16 @@
+name: Clone & Execute
+on:
+  workflow_call:
+    inputs:
+     prod:
+      required: true
+      type: string
+
+jobs:
+  install:
+    runs-on: [windows-latest]
+    steps:     
+      - name: Start Test         
+        run: |
+          Write-Host "Installation for ${{ inputs.prod }}"
+
