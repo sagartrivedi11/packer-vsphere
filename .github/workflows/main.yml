@@ -24,6 +24,7 @@ jobs:
         run: echo "second Job"    
 
   orchestrator:
+    needs: clone-vms
     runs-on: [windows-latest]      
     steps:  
       - name: step1
