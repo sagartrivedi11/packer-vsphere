@@ -37,4 +37,4 @@ jobs:
    needs: orchestrator
    uses: sagartrivedi11/packer-vsphere/.github/workflows/clone-execute.yml@main
    with:
-    target: ${{ matrix.target }}
+    prod: ${{ matrix.target }}
