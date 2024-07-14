@@ -10,7 +10,11 @@ jobs:
   install:
     runs-on: [windows-latest]
     steps:     
-      - name: Start Test         
-        run: |
-          Write-Host "Installation for ${{ inputs.prod }}"
+      - name: Installation         
+        run: Write-Host "Installation for ${{ inputs.prod }}"
 
+  test:
+   needs: install
+   uses: sagartrivedi11/packer-vsphere/.github/workflows/test-execute.yml@main
+   with:
+    prod: ${{inputs.prod}}
