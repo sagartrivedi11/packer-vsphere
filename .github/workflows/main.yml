@@ -35,6 +35,6 @@ jobs:
      matrix: 
       target: [prod1, prod2, prod3]
    needs: orchestrator
-   uses: sagartrivedi11/packer-vsphere/.github/workflows/part2.yml@main
+   uses: sagartrivedi11/packer-vsphere/.github/workflows/clone-execute.yml@main
    with:
     target: ${{ matrix.target }}
