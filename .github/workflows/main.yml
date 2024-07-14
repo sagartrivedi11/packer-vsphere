@@ -1,0 +1,40 @@
+name: Part1
+on:
+  workflow_dispatch:
+  workflow_call:    
+  
+
+env:
+ variable1: 'test'
+
+
+jobs:
+  test-discovery:
+    runs-on: [windows-latest]      
+    steps:  
+      - name: step1
+        run: echo "First Job"    
+
+
+  clone-vms:
+    needs: test-discovery
+    runs-on: [windows-latest]      
+    steps:  
+      - name: step1
+        run: echo "second Job"    
+
+  orchestrator:
+    runs-on: [windows-latest]      
+    steps:  
+      - name: step1
+        run: echo "third Job"    
+  
+  env-prepare:
+   strategy:
+     fail-fast: false
+     matrix: 
+      target: [prod1, prod2, prod3]
+   needs: orchestrator
+   uses: sagartrivedi11/packer-vsphere/.github/workflows/part2.yml@main
+   with:
+    target: ${{ matrix.target }}
