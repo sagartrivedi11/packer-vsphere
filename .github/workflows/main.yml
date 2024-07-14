@@ -1,4 +1,4 @@
-name: Part1
+name: Discover & Deploy
 on:
   workflow_dispatch:
   workflow_call:    
