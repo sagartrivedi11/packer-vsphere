@@ -1,0 +1,29 @@
+name: Test Execute
+on:
+  workflow_call:
+    inputs:
+     prod:
+      required: true
+      type: string
+
+jobs:
+  orchestrator:
+    runs-on: [windows-latest]
+    steps:     
+      - name: Start Test         
+        run: Write-Host "Orchestrator for ${{ inputs.prod }}"
+
+  clone:
+    runs-on: [windows-latest]
+    needs: [orchestrator]
+    steps:
+      - name: clone vms
+        run: Write-Host "Clone vms for ${{ inputs.prod }}"
+
+  test-execution:
+    runs-on: [windows-latest]
+    needs: [clone]
+    steps:
+      - name: start test execution
+        run: Write-Host "Test execution for ${{ inputs.prod }}"
+        
